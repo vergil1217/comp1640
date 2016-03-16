@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit http://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAn8kxSL13Ekyw0uZ19yUgdAAAAAACAAAAAAAQZgAAAAEAACAAAAAG+bES+BXa/YjKtYB6CslvURUNZxuKyF2dRtzUwyyS2gAAAAAOgAAAAAIAACAAAADxNOr2BVN66h6vwvV9BagO7QRWEo5q5oGbRHJHpQEs6SAAAABbliUTBYpXl2HMrdMCvsFs/4uqNUBhIMNAYgc7Jz+biEAAAAC4Z1fraZa44Zy5oh8HZrnGDK5fDra+nWS+5SyyWPGwDGIDTOkddiFSM9A+UUDckuO7aT8M+ZK2b0i9/nZNkb9w</EncryptedPassword>
+    <_PublishTargetUrl>ftp://FTP.SMARTERASP.NET</_PublishTargetUrl>
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="About.aspx">
+      <publishTime>03/16/2016 15:23:51</publishTime>
+    </File>
+    <File Include="Account/Login.aspx">
+      <publishTime>03/16/2016 15:23:54</publishTime>
+    </File>
+    <File Include="Account/Web.config">
+      <publishTime>03/16/2016 14:31:41</publishTime>
+    </File>
+    <File Include="Admin/AdminHome.aspx">
+      <publishTime>03/16/2016 15:23:51</publishTime>
+    </File>
+    <File Include="Admin/Register.aspx">
+      <publishTime>03/16/2016 16:21:51</publishTime>
+    </File>
+    <File Include="Admin/Web.config">
+      <publishTime>03/16/2016 14:31:25</publishTime>
+    </File>
+    <File Include="ApplicationInsights.config">
+      <publishTime>03/16/2016 14:22:01</publishTime>
+    </File>
+    <File Include="bin/ApplicationInsights.config">
+      <publishTime>03/16/2016 14:22:01</publishTime>
+    </File>
+    <File Include="bin/EWSD.dll">
+      <publishTime>03/16/2016 16:25:39</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AI.Agent.Intercept.dll">
+      <publishTime>03/16/2016 14:22:00</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AI.DependencyCollector.dll">
+      <publishTime>03/16/2016 14:22:00</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AI.PerfCounterCollector.dll">
+      <publishTime>03/16/2016 14:22:00</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AI.ServerTelemetryChannel.dll">
+      <publishTime>03/16/2016 14:22:00</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AI.Web.dll">
+      <publishTime>03/16/2016 14:22:01</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AI.WindowsServer.dll">
+      <publishTime>03/16/2016 14:22:01</publishTime>
+    </File>
+    <File Include="bin/Microsoft.ApplicationInsights.dll">
+      <publishTime>03/16/2016 14:21:59</publishTime>
+    </File>
+    <File Include="bin/Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll">
+      <publishTime>03/16/2016 14:21:57</publishTime>
+    </File>
+    <File Include="bin/roslyn/csc.exe">
+      <publishTime>03/16/2016 14:21:57</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.Build.Tasks.CodeAnalysis.dll">
+      <publishTime>03/16/2016 14:21:57</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.CodeAnalysis.CSharp.dll">
+      <publishTime>03/16/2016 14:21:57</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.CodeAnalysis.dll">
+      <publishTime>03/16/2016 14:21:57</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.CodeAnalysis.VisualBasic.dll">
+      <publishTime>03/16/2016 14:21:57</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.CSharp.Core.targets">
+      <publishTime>03/16/2016 14:21:57</publishTime>
+    </File>
+    <File Include="bin/roslyn/Microsoft.VisualBasic.Core.targets">
+      <publishTime>03/16/2016 14:21:57</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Collections.Immutable.dll">
+      <publishTime>03/16/2016 14:21:57</publishTime>
+    </File>
+    <File Include="bin/roslyn/System.Reflection.Metadata.dll">
+      <publishTime>03/16/2016 14:21:57</publishTime>
+    </File>
+    <File Include="bin/roslyn/vbc.exe">
+      <publishTime>03/16/2016 14:21:57</publishTime>
+    </File>
+    <File Include="bin/roslyn/VBCSCompiler.exe">
+      <publishTime>03/16/2016 14:21:57</publishTime>
+    </File>
+    <File Include="bin/roslyn/VBCSCompiler.exe.config">
+      <publishTime>03/16/2016 14:21:57</publishTime>
+    </File>
+    <File Include="Contact.aspx">
+      <publishTime>03/16/2016 15:23:51</publishTime>
+    </File>
+    <File Include="css/bootstrap.css">
+      <publishTime>03/16/2016 14:27:22</publishTime>
+    </File>
+    <File Include="css/Site.css">
+      <publishTime>03/16/2016 14:37:46</publishTime>
+    </File>
+    <File Include="Default.aspx">
+      <publishTime>03/16/2016 15:23:54</publishTime>
+    </File>
+    <File Include="EWSD.Master">
+      <publishTime>03/16/2016 16:21:15</publishTime>
+    </File>
+    <File Include="Global.asax">
+      <publishTime>03/16/2016 14:21:57</publishTime>
+    </File>
+    <File Include="packages.config">
+      <publishTime>03/16/2016 14:41:40</publishTime>
+    </File>
+    <File Include="scripts/ai.0.15.0-build58334.js">
+      <publishTime>03/16/2016 14:22:02</publishTime>
+    </File>
+    <File Include="scripts/ai.0.15.0-build58334.min.js">
+      <publishTime>03/16/2016 14:22:02</publishTime>
+    </File>
+    <File Include="Web.config">
+      <publishTime>03/16/2016 16:25:42</publishTime>
+    </File>
+  </ItemGroup>
+</Project>
