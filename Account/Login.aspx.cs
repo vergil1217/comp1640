@@ -17,7 +17,13 @@ namespace EWSD.Account
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (HttpContext.Current.User.Identity.IsAuthenticated)
+            {
+                if (User.IsInRole("Administrator"))
+                {
+                    Response.Redirect("~/Admin/AdminHome.aspx");
+                }
+            }
         }
 
         protected void LogIn(object sender, EventArgs e)

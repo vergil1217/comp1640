@@ -4,57 +4,50 @@
     <link rel="stylesheet" type="text/css" href="/css/Site.css" />
 </asp:Content>
 <asp:Content runat="server" ID="BodyContent" ContentPlaceHolderID="MainContent">
-            <h2><%: Title %>.</h2>
+    <h2><%: Title %>.</h2>
 
-            <div class="row">
-                <div class="col-md-8">
-                    <section id="loginForm">
-                        <div class="form-horizontal">
-                            <h4>Use a local account to log in.</h4>
-                            <hr />
-                            <asp:PlaceHolder runat="server" ID="ErrorMessage" Visible="false">
-                                <p class="text-danger">
-                                    <asp:Literal runat="server" ID="literalLoginFail" />
-                                </p>
-                            </asp:PlaceHolder>
-                            <div class="form-group">
-                                <asp:Label runat="server" AssociatedControlID="fieldUsername" CssClass="col-md-2 control-label">Username</asp:Label>
-                                <div class="col-md-10">
-                                    <asp:TextBox runat="server" ID="fieldUsername" CssClass="form-control" TextMode="SingleLine" />
-                                    <asp:RequiredFieldValidator runat="server" ControlToValidate="fieldUsername"
-                                        CssClass="text-danger" ErrorMessage="Username is required." />
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <asp:Label runat="server" AssociatedControlID="fieldPassword" CssClass="col-md-2 control-label">Password</asp:Label>
-                                <div class="col-md-10">
-                                    <asp:TextBox runat="server" ID="fieldPassword" TextMode="Password" CssClass="form-control" />
-                                    <asp:RequiredFieldValidator runat="server" ControlToValidate="fieldPassword" CssClass="text-danger" ErrorMessage="Password is required." />
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-offset-2 col-md-10">
-                                    <div class="checkbox">
-                                        <asp:CheckBox runat="server" ID="checkRememberMe" />
-                                        <asp:Label runat="server" AssociatedControlID="checkRememberMe">Remember me?</asp:Label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-offset-2 col-md-10">
-                                    <asp:Button runat="server" OnClick="LogIn" Text="Log in" CssClass="btn btn-default" />
-                                </div>
+    <div class="row">
+        <div class="col-md-8">
+            <section id="loginForm">
+                <div class="form-horizontal">
+                    <h4>Use a local account to log in.</h4>
+                    <hr />
+                    <asp:PlaceHolder runat="server" ID="ErrorMessage" Visible="false">
+                        <p class="text-danger">
+                            <asp:Literal runat="server" ID="literalLoginFail" />
+                        </p>
+                    </asp:PlaceHolder>
+                    <div class="form-group">
+                        <asp:Label runat="server" AssociatedControlID="fieldUsername" CssClass="col-md-2 control-label">Username</asp:Label>
+                        <div class="col-md-10">
+                            <asp:TextBox runat="server" ID="fieldUsername" CssClass="form-control" TextMode="SingleLine" />
+                            <asp:RequiredFieldValidator runat="server" ControlToValidate="fieldUsername"
+                                CssClass="text-danger" ErrorMessage="Username is required." />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <asp:Label runat="server" AssociatedControlID="fieldPassword" CssClass="col-md-2 control-label">Password</asp:Label>
+                        <div class="col-md-10">
+                            <asp:TextBox runat="server" ID="fieldPassword" TextMode="Password" CssClass="form-control" />
+                            <asp:RequiredFieldValidator runat="server" ControlToValidate="fieldPassword" CssClass="text-danger" ErrorMessage="Password is required." />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <div class="checkbox">
+                                <asp:CheckBox runat="server" ID="checkRememberMe" />
+                                <asp:Label runat="server" AssociatedControlID="checkRememberMe">Remember me?</asp:Label>
                             </div>
                         </div>
-                        <p>
-                            <asp:HyperLink runat="server" ID="RegisterHyperLink" ViewStateMode="Disabled">Register as a new user</asp:HyperLink>
-                        </p>
-                        <p>
-                            <%-- Enable this once you have account confirmation enabled for password reset functionality
-                            <asp:HyperLink runat="server" ID="ForgotPasswordHyperLink" ViewStateMode="Disabled">Forgot your password?</asp:HyperLink>
-                            --%>
-                        </p>
-                    </section>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <asp:Button runat="server" OnClick="LogIn" Text="Log in" CssClass="btn btn-default" />
+                            &nbsp;&nbsp;&nbsp;&nbsp;<a href="ForgotPassword.aspx">Forgot Password?</a>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </asp:Content>
+            </section>
+        </div>
+    </div>
+</asp:Content>
