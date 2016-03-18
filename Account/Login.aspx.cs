@@ -17,7 +17,7 @@ namespace EWSD.Account
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (HttpContext.Current.User.Identity.IsAuthenticated)
+            if (User.Identity.IsAuthenticated)
             {
                 if (User.IsInRole("Administrator"))
                 {
@@ -71,6 +71,10 @@ namespace EWSD.Account
                                 FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1, fieldUsername.Text, DateTime.Now, DateTime.Now.AddMinutes(50), checkRememberMe.Checked, roles, FormsAuthentication.FormsCookiePath);
                                 string hashCookies = FormsAuthentication.Encrypt(ticket);
                                 HttpCookie cookie = new HttpCookie(FormsAuthentication.FormsCookieName, hashCookies);
+                                if (checkRememberMe.Checked)
+                                {
+                                    cookie.Expires = DateTime.Now.AddMonths(1);
+                                }
                                 Response.Cookies.Add(cookie);
                                 string returnUrl = Request.QueryString["ReturnUrl"];
                                 if (returnUrl == null) returnUrl = "~/Default.aspx";
