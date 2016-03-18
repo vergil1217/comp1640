@@ -15,21 +15,20 @@
     <div class="form-horizontal">
         <h4>Create a new account</h4>
         <hr />
-        <asp:ValidationSummary runat="server" CssClass="text-danger" />
         <div class="form-group">
             <asp:Label runat="server" AssociatedControlID="fieldUsername" CssClass="col-md-2 control-label">User Name</asp:Label>
             <div class="col-md-10">
                 <asp:TextBox runat="server" ID="fieldUsername" CssClass="form-control" TextMode="SingleLine" />
-                <asp:RequiredFieldValidator runat="server" ControlToValidate="fieldUsername"
-                    CssClass="text-danger" ErrorMessage="The user name field is required." />
+                <asp:RequiredFieldValidator runat="server" ControlToValidate="fieldUsername" CssClass="text-danger" Display="Dynamic" ErrorMessage="The user name field is required." />
+                <asp:RegularExpressionValidator runat="server" ControlToValidate="fieldUsername" CssClass="text-danger" Display="Dynamic" ErrorMessage="Username needs a minimum length of 6 characters." ValidationExpression=".{6}.*" />
             </div>
         </div>
         <div class="form-group">
             <asp:Label runat="server" AssociatedControlID="fieldPassword" CssClass="col-md-2 control-label">Password</asp:Label>
             <div class="col-md-10">
                 <asp:TextBox runat="server" ID="fieldPassword" TextMode="Password" CssClass="form-control" />
-                <asp:RequiredFieldValidator runat="server" ControlToValidate="fieldPassword"
-                    CssClass="text-danger" ErrorMessage="The password field is required." />
+                <asp:RequiredFieldValidator runat="server" ControlToValidate="fieldPassword" CssClass="text-danger" Display="Dynamic" ErrorMessage="The password field is required." />
+                <asp:RegularExpressionValidator runat="server" ControlToValidate="fieldPassword" CssClass="text-danger" Display="Dynamic" ErrorMessage="Password requires a minimum length of 6 characters." ValidationExpression=".{6}.*" />
             </div>
         </div>
         <div class="form-group">
@@ -64,6 +63,32 @@
                 <asp:TextBox runat="server" ID="fieldEmail" TextMode="Email" CssClass="form-control" />
                 <asp:RequiredFieldValidator runat="server" ControlToValidate="fieldEmail"
                     CssClass="text-danger" Display="Dynamic" ErrorMessage="Your email is required." />
+            </div>
+        </div>
+        <div class="form-group">
+            <asp:Label runat="server" AssociatedControlID="comboSecurityQuestion" CssClass="col-md-2 control-label">Security Question</asp:Label>
+            <div class="col-md-10">
+                <asp:DropDownList ID="comboSecurityQuestion" runat="server">
+                    <asp:ListItem>Select a question</asp:ListItem>
+                    <asp:ListItem>What is your childhood friend's name?</asp:ListItem>
+                    <asp:ListItem>What is your favourite food?</asp:ListItem>
+                    <asp:ListItem>Who is your favourite superhero?</asp:ListItem>
+                    <asp:ListItem>What is your mother's maiden name?</asp:ListItem>
+                    <asp:ListItem>Where did you had your first kiss?</asp:ListItem>
+                    <asp:ListItem>What is the name of your secondary school's 3rd Year teacher?</asp:ListItem>
+                    <asp:ListItem>Where did you get married?</asp:ListItem>
+                    <asp:ListItem>How did you meet your spouse?</asp:ListItem>
+                </asp:DropDownList>
+                <asp:RequiredFieldValidator runat="server" ControlToValidate="comboSecurityQuestion"
+                    CssClass="text-danger" Display="Dynamic" InitialValue="Select a question" ErrorMessage="Please select a question." />
+            </div>
+        </div>
+        <div class="form-group">
+            <asp:Label runat="server" AssociatedControlID="fieldSecurityAnswer" CssClass="col-md-2 control-label">Security Answer</asp:Label>
+            <div class="col-md-10">
+                <asp:TextBox runat="server" ID="fieldSecurityAnswer" TextMode="SingleLine" CssClass="form-control" />
+                <asp:RequiredFieldValidator runat="server" ControlToValidate="fieldSecurityAnswer"
+                    CssClass="text-danger" Display="Dynamic" ErrorMessage="Security answer is required." />
             </div>
         </div>
         <div class="form-group">
