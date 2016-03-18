@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -13,25 +14,28 @@ namespace EWSD.Admin
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            comboRoles.Items.Clear();
-
-            using (SqlConnection conn = new SqlConnection(WebConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
+            if (!IsPostBack)
             {
-                using(SqlCommand cmd = new SqlCommand())
-                {
-                    cmd.Connection = conn;
-                    cmd.CommandText = "SELECT role_name FROM Roles";
-                    cmd.Prepare();
+                comboRoles.Items.Clear();
 
-                    conn.Open();
-                    using(SqlDataReader reader = cmd.ExecuteReader())
+                using (SqlConnection conn = new SqlConnection(WebConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand())
                     {
-                        while (reader.Read())
+                        cmd.Connection = conn;
+                        cmd.CommandText = "SELECT role_name FROM Roles";
+                        cmd.Prepare();
+
+                        conn.Open();
+                        using (SqlDataReader reader = cmd.ExecuteReader())
                         {
-                            comboRoles.Items.Add(reader.GetString(0));
+                            while (reader.Read())
+                            {
+                                comboRoles.Items.Add(reader.GetString(0));
+                            }
                         }
+                        conn.Close();
                     }
-                    conn.Close();
                 }
             }
         }
@@ -57,7 +61,8 @@ namespace EWSD.Admin
                         conn.Open();
                         cmd.ExecuteNonQuery();
                         conn.Close();
-                        literalDeleteSuccess.Text = "Role deletion successful.";
+                        literalDeleteSuccess.Text = "Role deletion successful. Page will refresh in 3 seconds.";
+                        Response.AddHeader("REFRESH", "3;");
                     }
                     catch (SqlException ex)
                     {
@@ -74,46 +79,54 @@ namespace EWSD.Admin
             literalDeleteFailure.Text = "";
             literalDeleteSuccess.Text = "";
 
-            using (SqlConnection conn = new SqlConnection(WebConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
+            if (fieldNewRole.Text.Equals(""))
             {
-                using (SqlCommand cmd = new SqlCommand())
+                literalAddFailure.Text = "Role addition failed. Reason: Role field is empty.";
+            }
+            else
+            {
+                using (SqlConnection conn = new SqlConnection(WebConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
                 {
-                    conn.Open();
-                    cmd.Connection = conn;
-                    cmd.CommandText = "SELECT role_name FROM roles";
-                    cmd.Prepare();
-
-                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    using (SqlCommand cmd = new SqlCommand())
                     {
-                        while (reader.Read())
+                        conn.Open();
+                        cmd.Connection = conn;
+                        cmd.CommandText = "SELECT role_name FROM roles";
+                        cmd.Prepare();
+
+                        using (SqlDataReader reader = cmd.ExecuteReader())
                         {
-                            if(String.Equals(fieldNewRole.Text, reader.GetString(0), StringComparison.OrdinalIgnoreCase))
+                            while (reader.Read())
                             {
-                                literalAddFailure.Text = "Role addition failed. Reason: Duplicate role name.";
-                                return;
+                                if (String.Equals(fieldNewRole.Text, reader.GetString(0), StringComparison.OrdinalIgnoreCase))
+                                {
+                                    literalAddFailure.Text = "Role addition failed. Reason: Duplicate role name.";
+                                    return;
+                                }
                             }
                         }
+
+                        cmd.CommandText = "SELECT TOP 1 role_id FROM roles ORDER BY role_id DESC";
+                        cmd.Prepare();
+
+                        int newRoleId = 0;
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            reader.Read();
+                            newRoleId = reader.GetInt32(0) + 1;
+                        }
+
+                        cmd.CommandText = "INSERT INTO roles VALUES (@roleId, @roleName)";
+                        cmd.Prepare();
+
+                        cmd.Parameters.AddWithValue("@roleId", newRoleId);
+                        cmd.Parameters.AddWithValue("@roleName", fieldNewRole.Text);
+
+                        cmd.ExecuteNonQuery();
+                        conn.Close();
+                        literalAddSuccess.Text = "Role addition successful. Page will refresh in 3 seconds.";
+                        Response.AddHeader("REFRESH", "3;");
                     }
-
-                    cmd.CommandText = "SELECT TOP 1 role_id FROM roles ORDER BY role_id DESC";
-                    cmd.Prepare();
-
-                    int newRoleId = 0;
-                    using(SqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        reader.Read();
-                        newRoleId = reader.GetInt32(0) + 1;
-                    }
-
-                    cmd.CommandText = "INSERT INTO roles VALUES (@roleId, @roleName)";
-                    cmd.Prepare();
-
-                    cmd.Parameters.AddWithValue("@roleId", newRoleId);
-                    cmd.Parameters.AddWithValue("@roleName", fieldNewRole.Text);
-
-                    cmd.ExecuteNonQuery();
-                    conn.Close();
-                    literalAddSuccess.Text = "Role addition successful.";
                 }
             }
         }

@@ -4,8 +4,8 @@
     <link rel="stylesheet" type="text/css" href="/css/Site.css" />
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+    <h3>Manage Roles</h3>
     <div class="jumbotron">
-        Manage Roles<hr />
         <fieldset>
             <legend style="font-size:18px;">Add / Delete Roles</legend>
             <table style="font-size:18px;">
