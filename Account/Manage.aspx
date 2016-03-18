@@ -103,8 +103,8 @@
         </fieldset>
         <hr />
         <fieldset>
-            <legend>Update Security Question & Answer&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:18px;"><asp:Button ID="bShowPanelUpdateSecQA" runat="server" OnClick="bShowPanelUpdateSecQA_Click" CausesValidation="false" Text="Hide Panel" /></span></legend>
-            <asp:Panel runat="server" ID="panelUpdateSecQA">
+            <legend>Update Security Question & Answer&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:18px;"><asp:Button ID="bShowPanelUpdateSecQA" runat="server" OnClick="bShowPanelUpdateSecQA_Click" CausesValidation="false" Text="Show Panel" /></span></legend>
+            <asp:Panel runat="server" ID="panelUpdateSecQA" Visible="false">
                 <table>
                     <tr style="font-size:18px;">
                         <td>
@@ -132,8 +132,8 @@
         </fieldset>
         <hr />
         <fieldset>
-            <legend>Update Email&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:18px;"><asp:Button ID="bShowPanelUpdateEmail" runat="server" CausesValidation="false" OnClick="bShowPanelUpdateEmail_Click" Text="Hide Panel" /></span></legend>
-            <asp:Panel runat="server" ID="panelUpdateEmail">
+            <legend>Update Email&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:18px;"><asp:Button ID="bShowPanelUpdateEmail" runat="server" CausesValidation="false" OnClick="bShowPanelUpdateEmail_Click" Text="Show Panel" /></span></legend>
+            <asp:Panel runat="server" ID="panelUpdateEmail" Visible="false">
                 <table>
                     <tr style="font-size:18px;">
                         <td>New Email:</td>
