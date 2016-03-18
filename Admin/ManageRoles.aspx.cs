@@ -18,12 +18,14 @@ namespace EWSD.Admin
             {
                 comboRoles.Items.Clear();
 
+                ArrayList arrUsedRoles = new ArrayList();
+
                 using (SqlConnection conn = new SqlConnection(WebConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
                 {
                     using (SqlCommand cmd = new SqlCommand())
                     {
                         cmd.Connection = conn;
-                        cmd.CommandText = "SELECT role_name FROM Roles";
+                        cmd.CommandText = "SELECT role_id FROM roles INNER JOIN staff ON role_id = staff.user_role";
                         cmd.Prepare();
 
                         conn.Open();
@@ -31,7 +33,33 @@ namespace EWSD.Admin
                         {
                             while (reader.Read())
                             {
-                                comboRoles.Items.Add(reader.GetString(0));
+                                arrUsedRoles.Add(reader.GetInt32(0));
+                            }
+                        }
+
+                        cmd.CommandText = "SELECT * FROM roles";
+                        cmd.Prepare();
+                        
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            bool isUsed;
+                            while (reader.Read())
+                            {
+                                isUsed = false;
+
+                                foreach(int i in arrUsedRoles)
+                                {
+                                    if(i == reader.GetInt32(0))
+                                    {
+                                        isUsed = true;
+                                        break;
+                                    }
+                                }
+
+                                if (!isUsed)
+                                {
+                                    comboRoles.Items.Add(reader.GetString(1));
+                                }
                             }
                         }
                         conn.Close();
