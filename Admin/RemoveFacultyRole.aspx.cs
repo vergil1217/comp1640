@@ -49,7 +49,8 @@ namespace EWSD.Admin
                         {
                             while (reader.Read())
                             {
-                                comboFaculties.Items.Add(reader.GetString(0) + " - " + reader.GetString(1));
+                                ListItem item = new ListItem(reader.GetString(1), reader.GetString(0));
+                                comboFaculties.Items.Add(item);
                             }
                         }
                         conn.Close();
@@ -68,7 +69,7 @@ namespace EWSD.Admin
         protected void bSelectFaculty_Click(object sender, EventArgs e)
         {
             role = Request.QueryString["role"];
-            string facultyCode = comboFaculties.SelectedItem.Text.Split(" - ".ToCharArray())[0];
+            string facultyCode = comboFaculties.SelectedItem.Value;
 
             using (SqlConnection conn = new SqlConnection(WebConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
             {
@@ -123,7 +124,7 @@ namespace EWSD.Admin
                 using (SqlCommand cmd = new SqlCommand())
                 {
                     role = Request.QueryString["role"];
-                    string facultyCode = comboFaculties.SelectedItem.Text.Split(" - ".ToCharArray())[0];
+                    string facultyCode = comboFaculties.SelectedItem.Value;
 
                     cmd.Connection = conn;
                     if (role.Equals("pvc"))
@@ -139,17 +140,6 @@ namespace EWSD.Admin
                     cmd.Prepare();
                     
                     cmd.ExecuteNonQuery();
-
-                    cmd.Parameters.Clear();
-
-                    cmd.CommandText = "UPDATE staff SET user_role = NULL WHERE staff_id = @staffId";
-                    cmd.Prepare();
-
-                    cmd.Parameters.AddWithValue("@staffId", int.Parse(fieldStaffId.Text));
-
-                    cmd.ExecuteNonQuery();
-                    conn.Close();
-
                     literalActionSuccess.Text = labelRole.Text + " successfully removed. You will be redirected to the Admin Homepage in 3 seconds.";
                     Response.AddHeader("REFRESH", "3;URL=AdminHome.aspx");
                 }

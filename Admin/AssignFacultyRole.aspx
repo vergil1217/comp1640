@@ -1,17 +1,17 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/EWSD.Master" AutoEventWireup="true" CodeBehind="RemoveFacultyRole.aspx.cs" Inherits="EWSD.Admin.RemoveFacultyRole" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/EWSD.Master" AutoEventWireup="true" CodeBehind="AssignFacultyRole.aspx.cs" Inherits="EWSD.Admin.AssignFacultyRole" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="/css/Site.css" />
     <script runat="server">
-        protected void bRemoveStaff_Click(object sender, EventArgs e)
+        protected void bSelectFaculty_Click(object sender, EventArgs e)
         {
-            bRemoveStaff.Visible = false;
-            bConfirmRemoveStaff.Visible = true;
+            panelSelectFaculty.Visible = false;
+            panelSelectStaff.Visible = true;
         }
     </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-    <h3>Remove <asp:Label ID="labelRole" runat="server" Text=""></asp:Label></h3>
+    <h3>Assign <asp:Label ID="labelRole" runat="server" Text=""></asp:Label></h3>
     <div class="jumbotron">
         <p style="font-size:18px;">
             <span class="text-danger"><asp:Literal ID="literalWarning" runat="server"></asp:Literal></span><br />
@@ -28,21 +28,16 @@
                 </table>
             </fieldset>
         </asp:Panel>
-        <asp:Panel runat="server" ID="panelRemoveStaff" Visible="false">
+        <asp:Panel runat="server" ID="panelSelectStaff" Visible="false">
             <fieldset>
                 <table>
                     <tr style="font-size:18px;">
-                        <td>Confirm Removal?</td>
-                        <td style="font-size:14px;padding:10px;color:blue;">
-                            Faculty: <asp:Literal ID="literalConfirmFaculty" runat="server"></asp:Literal><br />
-                            Staff Name: <asp:Literal ID="literalStaffName" runat="server"></asp:Literal><br />
-                        </td>
-                        <td><asp:Button ID="bRemoveStaff" runat="server" Text="Remove" OnClick="bRemoveStaff_Click" /></td>
-                        <td><asp:Button ID="bConfirmRemoveStaff" runat="server" Text="Confirm Removal" OnClick="bConfirmRemoveStaff_Click" Visible="false"/></td>
+                        <td>Select Staff: </td>
+                        <td><asp:DropDownList ID="comboStaff" runat="server"></asp:DropDownList></td>
+                        <td><asp:Button ID="bSelectStaff" runat="server" Text="Elect Staff" OnClick="bSelectStaff_Click" /></td>
                     </tr>
                 </table>
             </fieldset>
         </asp:Panel>
     </div>
-    <asp:TextBox ID="fieldStaffId" runat="server" Visible="false" ReadOnly="true"></asp:TextBox>
 </asp:Content>
