@@ -42,6 +42,13 @@
         <table border="1">
             <tr>
                 <td style="padding:10px;"><a href="ManageCourse.aspx">Manage Courses</a></td>
+                <td style="padding:10px;"><a href="AssignCourseRole.aspx?role=cl">Assign Course Leader</a></td>
+                <td style="padding:10px;"><a href="AssignCourseRole.aspx?role=cm">Assign Course Moderator</a></td>
+            </tr>
+            <tr>
+                <td style="border-left:hidden; border-bottom:hidden;"></td>
+                <td style="padding:10px;"><a href="RemoveCourseRole.aspx?role=cl">Remove Course Leader</a></td>
+                <td style="padding:10px;"><a href="RemoveCourseRole.aspx?role=cm">Remove Course Moderator</a></td>
             </tr>
         </table>
     </div>
