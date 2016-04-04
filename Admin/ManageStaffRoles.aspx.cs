@@ -20,7 +20,7 @@ namespace EWSD.Admin
                     using (SqlCommand cmd = new SqlCommand())
                     {
                         cmd.Connection = conn;
-                        cmd.CommandText = "SELECT * FROM staff WHERE user_role <> 5";
+                        cmd.CommandText = "SELECT * FROM staff WHERE user_role <> 5 OR user_role IS NULL";
                         cmd.Prepare();
 
                         conn.Open();
@@ -63,7 +63,11 @@ namespace EWSD.Admin
                     {
                         while (reader.Read())
                         {
-                            fieldUserRole.Text = reader.GetInt32(10).ToString();
+                            labelStaffName.Text = reader.GetString(3) + " " + reader.GetString(4);
+                            if (!reader.IsDBNull(10))
+                            {
+                                fieldUserRole.Text = reader.GetInt32(10).ToString();
+                            }
                         }
                     }
 
@@ -77,9 +81,12 @@ namespace EWSD.Admin
                         while (reader.Read())
                         {
                             ListItem item = new ListItem(reader.GetString(1), reader.GetInt32(0).ToString());
-                            if (reader.GetInt32(0) == int.Parse(fieldUserRole.Text))
+                            if (!fieldUserRole.Text.Equals(""))
                             {
-                                item.Selected = true;
+                                if (reader.GetInt32(0) == int.Parse(fieldUserRole.Text))
+                                {
+                                    item.Selected = true;
+                                }
                             }
                             comboRole.Items.Add(item);
                         }
