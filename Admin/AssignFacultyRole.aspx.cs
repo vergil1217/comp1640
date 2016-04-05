@@ -85,6 +85,7 @@ namespace EWSD.Admin
                         {
                             comboStaff.Items.Add("No available staff");
                             literalWarning.Text = "Warning: No available staff!";
+                            bSelectStaff.Enabled = false;
                         }
                     }
                 }
