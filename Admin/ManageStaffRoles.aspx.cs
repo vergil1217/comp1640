@@ -66,7 +66,7 @@ namespace EWSD.Admin
                             labelStaffName.Text = reader.GetString(3) + " " + reader.GetString(4);
                             if (!reader.IsDBNull(10))
                             {
-                                fieldUserRole.Text = reader.GetInt32(10).ToString();
+                                fieldUserRole.Text = reader.GetByte(10).ToString();
                             }
                         }
                     }
@@ -80,10 +80,10 @@ namespace EWSD.Admin
                     {
                         while (reader.Read())
                         {
-                            ListItem item = new ListItem(reader.GetString(1), reader.GetInt32(0).ToString());
+                            ListItem item = new ListItem(reader.GetString(1), reader.GetByte(0).ToString());
                             if (!fieldUserRole.Text.Equals(""))
                             {
-                                if (reader.GetInt32(0) == int.Parse(fieldUserRole.Text))
+                                if (reader.GetByte(0) == int.Parse(fieldUserRole.Text))
                                 {
                                     item.Selected = true;
                                 }

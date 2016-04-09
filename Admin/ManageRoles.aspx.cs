@@ -33,7 +33,7 @@ namespace EWSD.Admin
                         {
                             while (reader.Read())
                             {
-                                arrUsedRoles.Add(reader.GetInt32(0));
+                                arrUsedRoles.Add(reader.GetByte(0));
                             }
                         }
 
@@ -49,7 +49,7 @@ namespace EWSD.Admin
 
                                 foreach(int i in arrUsedRoles)
                                 {
-                                    if(i == reader.GetInt32(0))
+                                    if(i == reader.GetByte(0))
                                     {
                                         isUsed = true;
                                         break;
@@ -141,7 +141,7 @@ namespace EWSD.Admin
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
                             reader.Read();
-                            newRoleId = reader.GetInt32(0) + 1;
+                            newRoleId = reader.GetByte(0) + 1;
                         }
 
                         cmd.CommandText = "INSERT INTO roles VALUES (@roleId, @roleName)";
