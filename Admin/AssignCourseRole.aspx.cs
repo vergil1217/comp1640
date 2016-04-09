@@ -49,6 +49,7 @@ namespace EWSD.Admin
                             if(counter < 1)
                             {
                                 literalWarning.Text = "Warning: No staff available!";
+                                bSelectFaculty.Enabled = false;
                             }
                         }
 
