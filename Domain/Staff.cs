@@ -13,6 +13,10 @@ namespace EWSD.Domain
         public string firstName { get; set; }
         public string lastName { get; set; }
         public string email { get; set; }
+        public string securityQuestion { get; set; }
+        public string securityAnswer { get; set; }
+        public DateTime creationDate { get; set; }
+        public DateTime lastLoginDate { get; set; }
         public byte userRole { get; set; }
 
         public Staff()
@@ -20,7 +24,7 @@ namespace EWSD.Domain
 
         }
 
-        public Staff(int staffId, string username, string pw, string firstName, string lastName, string email, byte userRole)
+        public Staff(int staffId, string username, string pw, string firstName, string lastName, string email, string securityQuestion, string securityAnswer, DateTime creationDate, DateTime lastLoginDate, byte userRole)
         {
             this.staffId = staffId;
             this.username = username;
@@ -28,6 +32,10 @@ namespace EWSD.Domain
             this.firstName = firstName;
             this.lastName = lastName;
             this.email = email;
+            this.securityQuestion = securityQuestion;
+            this.securityAnswer = securityAnswer;
+            this.creationDate = creationDate;
+            this.lastLoginDate = lastLoginDate;
             this.userRole = userRole;
         }
     }
