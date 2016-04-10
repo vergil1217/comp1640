@@ -58,13 +58,13 @@ namespace EWSD.Course {
         protected global::System.Web.UI.WebControls.DropDownList comboCourses;
         
         /// <summary>
-        /// literalCourseTitle control.
+        /// literalCourseCode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal literalCourseTitle;
+        protected global::System.Web.UI.WebControls.Literal literalCourseCode;
         
         /// <summary>
         /// fieldStudentCount control.
@@ -497,6 +497,24 @@ namespace EWSD.Course {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox fieldGddCw3Group10;
+        
+        /// <summary>
+        /// fieldGeneralComments control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox fieldGeneralComments;
+        
+        /// <summary>
+        /// fieldActionTaken control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox fieldActionTaken;
         
         /// <summary>
         /// bSubmitReport control.

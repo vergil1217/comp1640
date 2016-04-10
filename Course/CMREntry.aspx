@@ -149,16 +149,16 @@
                     <td><asp:TextBox ID="fieldAcademicSession" runat="server"></asp:TextBox></td>
                 </tr>
                 <tr>
-                    <td>Course Code: </td>
+                    <td>Course Title: </td>
                     <td><asp:DropDownList ID="comboCourses" runat="server" AutoPostBack="true" OnSelectedIndexChanged="comboCourses_SelectedIndexChanged"></asp:DropDownList></td>
                 </tr>
                 <tr>
-                    <td>Course Title: </td>
-                    <td><asp:Literal ID="literalCourseTitle" runat="server"></asp:Literal></td>
+                    <td>Course Code: </td>
+                    <td><asp:Literal ID="literalCourseCode" runat="server"></asp:Literal></td>
                 </tr>
                 <tr>
                     <td>Student Count: </td>
-                    <td><asp:TextBox ID="fieldStudentCount" runat="server"></asp:TextBox></td>
+                    <td><asp:TextBox ID="fieldStudentCount" TextMode="Number" min="0" step="1" runat="server"></asp:TextBox></td>
                 </tr>
                 <tr>
                     <td>&nbsp;</td>
@@ -283,7 +283,7 @@
             <table border="1" style="text-align:center;margin-left:auto;margin-right:auto;font-size:18px;">
                 <tr>
                     <td>
-                        <textarea rows="5" cols="100"></textarea>
+                        <asp:TextBox id="fieldGeneralComments" TextMode="multiline" Columns="100" Rows="5" runat="server" />
                     </td>
                 </tr>
             </table>
@@ -292,7 +292,7 @@
             <table border="1" style="text-align:center;margin-left:auto;margin-right:auto;font-size:18px;">
                 <tr>
                     <td>
-                        <textarea rows="5" cols="100"></textarea>
+                        <asp:TextBox id="fieldActionTaken" TextMode="multiline" Columns="100" Rows="5" runat="server" />
                     </td>
                 </tr>
             </table>
