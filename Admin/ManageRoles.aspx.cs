@@ -47,7 +47,7 @@ namespace EWSD.Admin
                             {
                                 isUsed = false;
 
-                                foreach(int i in arrUsedRoles)
+                                foreach(byte i in arrUsedRoles)
                                 {
                                     if(i == reader.GetByte(0))
                                     {
