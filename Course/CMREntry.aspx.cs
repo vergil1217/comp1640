@@ -75,6 +75,11 @@ namespace EWSD.Course
         protected void comboCourses_SelectedIndexChanged(object sender, EventArgs e)
         {
             string courseCode = ((DropDownList)sender).SelectedValue.ToString();
+            if (((DropDownList)sender).SelectedIndex == 0)
+            {
+                panelCMRBody.Visible = false;
+                return;
+            }
 
             literalSubjectList.Text = "";
             comboCw1.Items.Clear();
@@ -83,6 +88,48 @@ namespace EWSD.Course
             comboGddCw1.Items.Clear();
             comboGddCw2.Items.Clear();
             comboGddCw3.Items.Clear();
+
+            fieldCw1Mean.Text = "";
+            fieldCw1Median.Text = "";
+            fieldCw1StdDev.Text = "";
+            fieldGddCw1Group1.Text = "";
+            fieldGddCw1Group2.Text = "";
+            fieldGddCw1Group3.Text = "";
+            fieldGddCw1Group4.Text = "";
+            fieldGddCw1Group5.Text = "";
+            fieldGddCw1Group6.Text = "";
+            fieldGddCw1Group7.Text = "";
+            fieldGddCw1Group8.Text = "";
+            fieldGddCw1Group9.Text = "";
+            fieldGddCw1Group10.Text = "";
+
+            fieldCw2Mean.Text = "";
+            fieldCw2Median.Text = "";
+            fieldCw2StdDev.Text = "";
+            fieldGddCw2Group1.Text = "";
+            fieldGddCw2Group2.Text = "";
+            fieldGddCw2Group3.Text = "";
+            fieldGddCw2Group4.Text = "";
+            fieldGddCw2Group5.Text = "";
+            fieldGddCw2Group6.Text = "";
+            fieldGddCw2Group7.Text = "";
+            fieldGddCw2Group8.Text = "";
+            fieldGddCw2Group9.Text = "";
+            fieldGddCw2Group10.Text = "";
+
+            fieldCw3Mean.Text = "";
+            fieldCw3Median.Text = "";
+            fieldCw3StdDev.Text = "";
+            fieldGddCw3Group1.Text = "";
+            fieldGddCw3Group2.Text = "";
+            fieldGddCw3Group3.Text = "";
+            fieldGddCw3Group4.Text = "";
+            fieldGddCw3Group5.Text = "";
+            fieldGddCw3Group6.Text = "";
+            fieldGddCw3Group7.Text = "";
+            fieldGddCw3Group8.Text = "";
+            fieldGddCw3Group9.Text = "";
+            fieldGddCw3Group10.Text = "";
 
             if (!panelCMRBody.Visible)
             {
@@ -170,6 +217,19 @@ namespace EWSD.Course
             int selectedIndex = ((DropDownList)sender).SelectedIndex;
             comboCw1.SelectedIndex = selectedIndex;
             comboGddCw1.SelectedIndex = selectedIndex;
+            fieldCw1Mean.Text = "";
+            fieldCw1Median.Text = "";
+            fieldCw1StdDev.Text = "";
+            fieldGddCw1Group1.Text = "";
+            fieldGddCw1Group2.Text = "";
+            fieldGddCw1Group3.Text = "";
+            fieldGddCw1Group4.Text = "";
+            fieldGddCw1Group5.Text = "";
+            fieldGddCw1Group6.Text = "";
+            fieldGddCw1Group7.Text = "";
+            fieldGddCw1Group8.Text = "";
+            fieldGddCw1Group9.Text = "";
+            fieldGddCw1Group10.Text = "";
         }
 
         protected void comboCw2_SelectedIndexChanged(object sender, EventArgs e)
@@ -177,6 +237,19 @@ namespace EWSD.Course
             int selectedIndex = ((DropDownList)sender).SelectedIndex;
             comboCw2.SelectedIndex = selectedIndex;
             comboGddCw2.SelectedIndex = selectedIndex;
+            fieldCw2Mean.Text = "";
+            fieldCw2Median.Text = "";
+            fieldCw2StdDev.Text = "";
+            fieldGddCw2Group1.Text = "";
+            fieldGddCw2Group2.Text = "";
+            fieldGddCw2Group3.Text = "";
+            fieldGddCw2Group4.Text = "";
+            fieldGddCw2Group5.Text = "";
+            fieldGddCw2Group6.Text = "";
+            fieldGddCw2Group7.Text = "";
+            fieldGddCw2Group8.Text = "";
+            fieldGddCw2Group9.Text = "";
+            fieldGddCw2Group10.Text = "";
         }
 
         protected void comboCw3_SelectedIndexChanged(object sender, EventArgs e)
@@ -184,6 +257,19 @@ namespace EWSD.Course
             int selectedIndex = ((DropDownList)sender).SelectedIndex;
             comboCw3.SelectedIndex = selectedIndex;
             comboGddCw3.SelectedIndex = selectedIndex;
+            fieldCw3Mean.Text = "";
+            fieldCw3Median.Text = "";
+            fieldCw3StdDev.Text = "";
+            fieldGddCw3Group1.Text = "";
+            fieldGddCw3Group2.Text = "";
+            fieldGddCw3Group3.Text = "";
+            fieldGddCw3Group4.Text = "";
+            fieldGddCw3Group5.Text = "";
+            fieldGddCw3Group6.Text = "";
+            fieldGddCw3Group7.Text = "";
+            fieldGddCw3Group8.Text = "";
+            fieldGddCw3Group9.Text = "";
+            fieldGddCw3Group10.Text = "";
         }
     }
 }
