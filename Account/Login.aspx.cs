@@ -23,11 +23,27 @@ namespace EWSD.Account
                 {
                     Response.Redirect("~/Admin/AdminHome.aspx");
                 }
+                else if (User.IsInRole("CL") || User.IsInRole("CM"))
+                {
+                    Response.Redirect("~/Course/Default.aspx");
+                }
             }
         }
 
         protected void LogIn(object sender, EventArgs e)
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                if (User.IsInRole("Administrator"))
+                {
+                    Response.Redirect("~/Admin/AdminHome.aspx");
+                }
+                else if (User.IsInRole("CL") || User.IsInRole("CM"))
+                {
+                    Response.Redirect("~/Course/Default.aspx");
+                }
+            }
+
             literalLoginFail.Text = "";
 
             if (IsValid)

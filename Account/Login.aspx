@@ -42,6 +42,7 @@
                         <div class="col-md-offset-2 col-md-10">
                             <asp:Button runat="server" OnClick="LogIn" Text="Log in" CssClass="btn btn-default" />
                             &nbsp;&nbsp;&nbsp;&nbsp;<a href="ForgotPassword.aspx">Forgot Password?</a>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<a href="/Guest/Default.aspx">Login as Guest</a>
                         </div>
                     </div>
                 </div>
