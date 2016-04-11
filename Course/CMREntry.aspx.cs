@@ -315,7 +315,7 @@ namespace EWSD.Course
                             mail.From = new MailAddress("comp1640.noreply@gmail.com");
                             mail.To.Add(email);
                             mail.Subject = "Course Monitoring Report for Course " + comboCourses.SelectedValue.ToUpper();
-                            mail.Body = "The Course Monitoring Report (CMR) for Academic Session " + fieldAcademicSession.Text + " is now ready for approval.<br/><br/>Visit the link below to review the CMR right away, or you may login manually via the website.<br/><br/>Link:<br/><a href='http://comp1640.ddns.net/Course/ViewCMR?reportId=" + report.reportId + "'>View Report</a><br/><br/><br/>Disclaimer: This is an auto-generated email, hence no signature is required. It will also not reply to any queries.";
+                            mail.Body = "The Course Monitoring Report (CMR) for Academic Session " + fieldAcademicSession.Text + " is now ready for approval.<br/><br/>Visit the link below to review the CMR right away, or you may login manually via the website.<br/><br/>Link:<br/><a href='http://comp1640.ddns.net/Course/ViewCMR.aspx?reportId=" + report.reportId + "'>View Report</a><br/><br/><br/>Disclaimer: This is an auto-generated email, hence no signature is required. It will also not reply to any queries.";
                             mail.IsBodyHtml = true;
 
                             using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
