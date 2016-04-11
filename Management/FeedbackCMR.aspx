@@ -19,12 +19,12 @@
                 </tr>
             </table>
         </asp:Panel>
-        <asp:Panel ID="panelSelectAcademicSession" runat="server" Visible="false">
+        <asp:Panel ID="panelSelectAcademicYear" runat="server" Visible="false">
             <table style="margin-left:auto;margin-right:auto;font-size:18px;">
                 <tr>
-                    <td>Select Academic Session:</td>
-                    <td><asp:DropDownList ID="comboAcademicSession" runat="server"></asp:DropDownList></td>
-                    <td><asp:Button ID="bSelectAcademicSession" runat="server" Text="Select Academic Session" OnClick="bSelectAcademicSession_Click"/></td>
+                    <td>Select Academic Year:</td>
+                    <td><asp:DropDownList ID="comboAcademicYear" runat="server"></asp:DropDownList></td>
+                    <td><asp:Button ID="bSelectAcademicYear" runat="server" Text="Select Academic Year" OnClick="bSelectAcademicYear_Click"/></td>
                 </tr>
             </table>
         </asp:Panel>
@@ -45,8 +45,8 @@
             </table>
             <table style="margin-left:auto;margin-right:auto;font-size:18px;">
                 <tr>
-                    <td>Academic Session: </td>
-                    <td><asp:Literal ID="literalAcademicSession" runat="server"></asp:Literal></td>
+                    <td>Academic Year: </td>
+                    <td><asp:Literal ID="literalAcademicYear" runat="server"></asp:Literal></td>
                 </tr>
                 <tr>
                     <td>Course Title: </td>

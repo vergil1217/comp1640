@@ -72,7 +72,7 @@ namespace EWSD.Management
                             {
                                 while (reader.Read())
                                 {
-                                    arrStats.Add(new Statistics(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), Convert.ToDouble(reader.GetDecimal(3)), Convert.ToDouble(reader.GetDecimal(4)), Convert.ToDouble(reader.GetDecimal(5)), Convert.ToDouble(reader.GetDecimal(6)), Convert.ToDouble(reader.GetDecimal(7)), Convert.ToDouble(reader.GetDecimal(8)), Convert.ToDouble(reader.GetDecimal(9)), Convert.ToDouble(reader.GetDecimal(10)), Convert.ToDouble(reader.GetDecimal(11)), Convert.ToDouble(reader.GetDecimal(12)), Convert.ToDouble(reader.GetDecimal(13)), Convert.ToDouble(reader.GetDecimal(14)), Convert.ToDouble(reader.GetDecimal(15))));
+                                    arrStats.Add(new Statistics(reader.GetInt32(0), reader.GetInt32(1), reader.GetString(2), Convert.ToDouble(reader.GetDecimal(3)), Convert.ToDouble(reader.GetDecimal(4)), Convert.ToDouble(reader.GetDecimal(5)), Convert.ToDouble(reader.GetDecimal(6)), Convert.ToDouble(reader.GetDecimal(7)), Convert.ToDouble(reader.GetDecimal(8)), Convert.ToDouble(reader.GetDecimal(9)), Convert.ToDouble(reader.GetDecimal(10)), Convert.ToDouble(reader.GetDecimal(11)), Convert.ToDouble(reader.GetDecimal(12)), Convert.ToDouble(reader.GetDecimal(13)), Convert.ToDouble(reader.GetDecimal(14)), Convert.ToDouble(reader.GetDecimal(15))));
                                 }
                             }
 
@@ -97,7 +97,7 @@ namespace EWSD.Management
 
                             cmd.Parameters.Clear();
 
-                            literalAcademicSession.Text = ((Statistics)report.statistics[0]).academicSession;
+                            literalAcademicYear.Text = ((Statistics)report.statistics[0]).academicYear.ToString();
 
                             cmd.CommandText = "SELECT course_title FROM course WHERE course_code IN (" +
                                 "SELECT parent_course FROM coursework WHERE coursework_code IN (" +
@@ -105,7 +105,7 @@ namespace EWSD.Management
                                         "SELECT stat_id FROM reports WHERE report_id = @reportId)))";
                             cmd.Prepare();
 
-                            cmd.Parameters.AddWithValue("@reportId", comboReportId.SelectedValue);
+                            cmd.Parameters.AddWithValue("@reportId", report.reportId);
 
                             using (SqlDataReader reader = cmd.ExecuteReader())
                             {
@@ -261,7 +261,7 @@ namespace EWSD.Management
                 using (SqlCommand cmd = new SqlCommand())
                 {
                     cmd.Connection = conn;
-                    cmd.CommandText = "SELECT DISTINCT academic_session FROM reports WHERE stat_id IN (" +
+                    cmd.CommandText = "SELECT DISTINCT academic_year FROM reports WHERE stat_id IN (" +
                         "SELECT stat_id FROM statistic WHERE coursework_code IN (" +
                             "SELECT coursework_code FROM coursework WHERE parent_course IN (" +
                                 "SELECT course_code FROM course WHERE registered_faculty = (" +
@@ -275,24 +275,24 @@ namespace EWSD.Management
                     {
                         while (reader.Read())
                         {
-                            ListItem item = new ListItem(reader.GetString(0), reader.GetString(0));
-                            comboAcademicSession.Items.Add(item);
+                            ListItem item = new ListItem(reader.GetInt32(0).ToString(), reader.GetInt32(0).ToString());
+                            comboAcademicYear.Items.Add(item);
                         }
 
-                        if(comboAcademicSession.Items.Count < 1)
+                        if(comboAcademicYear.Items.Count < 1)
                         {
-                            comboAcademicSession.Items.Add("No academic session available");
-                            bSelectAcademicSession.Enabled = false;
+                            comboAcademicYear.Items.Add("No academic session available");
+                            bSelectAcademicYear.Enabled = false;
                         }
 
                         panelSelectFaculty.Visible = false;
-                        panelSelectAcademicSession.Visible = true;
+                        panelSelectAcademicYear.Visible = true;
                     }
                 }
             }
         }
 
-        protected void bSelectAcademicSession_Click(object sender, EventArgs e)
+        protected void bSelectAcademicYear_Click(object sender, EventArgs e)
         {
             using (SqlConnection conn = new SqlConnection(WebConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
             {
@@ -303,11 +303,11 @@ namespace EWSD.Management
                         "SELECT stat_id FROM statistic WHERE coursework_code IN (" +
                             "SELECT coursework_code FROM coursework WHERE parent_course IN (" +
                                 "SELECT course_code FROM course WHERE registered_faculty = @facultyCode))) " +
-                                    "AND academic_session = @acadSession and approved_by IS NOT NULL";
+                                    "AND academic_session = @acadYear and approved_by IS NOT NULL";
                     cmd.Prepare();
 
                     cmd.Parameters.AddWithValue("@facultyCode", comboFaculties.SelectedValue);
-                    cmd.Parameters.AddWithValue("@acadSession", comboAcademicSession.SelectedValue);
+                    cmd.Parameters.AddWithValue("@acadYear", comboAcademicYear.SelectedValue);
 
                     conn.Open();
                     using (SqlDataReader reader = cmd.ExecuteReader())
@@ -325,7 +325,7 @@ namespace EWSD.Management
                         }
                         else
                         {
-                            panelSelectAcademicSession.Visible = false;
+                            panelSelectAcademicYear.Visible = false;
                             panelSelectReportId.Visible = true;
                         }
                     }
@@ -352,7 +352,7 @@ namespace EWSD.Management
                     {
                         while (reader.Read())
                         {
-                            arrStats.Add(new Statistics(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), Convert.ToDouble(reader.GetDecimal(3)), Convert.ToDouble(reader.GetDecimal(4)), Convert.ToDouble(reader.GetDecimal(5)), Convert.ToDouble(reader.GetDecimal(6)), Convert.ToDouble(reader.GetDecimal(7)), Convert.ToDouble(reader.GetDecimal(8)), Convert.ToDouble(reader.GetDecimal(9)), Convert.ToDouble(reader.GetDecimal(10)), Convert.ToDouble(reader.GetDecimal(11)), Convert.ToDouble(reader.GetDecimal(12)), Convert.ToDouble(reader.GetDecimal(13)), Convert.ToDouble(reader.GetDecimal(14)), Convert.ToDouble(reader.GetDecimal(15))));
+                            arrStats.Add(new Statistics(reader.GetInt32(0), reader.GetInt32(1), reader.GetString(2), Convert.ToDouble(reader.GetDecimal(3)), Convert.ToDouble(reader.GetDecimal(4)), Convert.ToDouble(reader.GetDecimal(5)), Convert.ToDouble(reader.GetDecimal(6)), Convert.ToDouble(reader.GetDecimal(7)), Convert.ToDouble(reader.GetDecimal(8)), Convert.ToDouble(reader.GetDecimal(9)), Convert.ToDouble(reader.GetDecimal(10)), Convert.ToDouble(reader.GetDecimal(11)), Convert.ToDouble(reader.GetDecimal(12)), Convert.ToDouble(reader.GetDecimal(13)), Convert.ToDouble(reader.GetDecimal(14)), Convert.ToDouble(reader.GetDecimal(15))));
                         }
                     }
 
@@ -377,7 +377,7 @@ namespace EWSD.Management
 
                     cmd.Parameters.Clear();
 
-                    literalAcademicSession.Text = ((Statistics)report.statistics[0]).academicSession;
+                    literalAcademicYear.Text = ((Statistics)report.statistics[0]).academicYear.ToString();
 
                     cmd.CommandText = "SELECT course_title FROM course WHERE course_code IN (" +
                         "SELECT parent_course FROM coursework WHERE coursework_code IN (" +
@@ -605,7 +605,7 @@ namespace EWSD.Management
                     cmd.CommandText = "SELECT course_leader, course_moderator FROM course WHERE course_code = (" +
                         "SELECT DISTINCT parent_course FROM coursework WHERE coursework_code IN(" +
                             "SELECT coursework_code FROM statistic WHERE stat_id IN(" +
-                                "SELECT stat_id FROM reports WHERE report_id = @reportid)))";
+                                "SELECT stat_id FROM reports WHERE report_id = @reportId)))";
                     cmd.Prepare();
 
                     cmd.Parameters.AddWithValue("@reportId", report.reportId);
@@ -718,7 +718,7 @@ namespace EWSD.Management
                                 mail.To.Add(dltEmail);
                             }
                             mail.Subject = "Course Monitoring Report for " + literalCourseTitle.Text;
-                            mail.Body = "The Course Monitoring Report (CMR) for Academic Session " + literalAcademicSession.Text + " has been given feedback.<br/><br/>Visit the link below to view the CMR right away, or you may login manually via the website.<br/><br/>Link:<br/><a href='http://comp1640.ddns.net/Management/FeedbackCMR.aspx?reportId=" + report.reportId + "'>View Report</a><br/><br/><br/>Disclaimer: This is an auto-generated email, hence no signature is required. It will also not reply to any queries.";
+                            mail.Body = "The Course Monitoring Report (CMR) for Academic Session " + literalAcademicYear.Text + " has been given feedback.<br/><br/>Visit the link below to view the CMR right away, or you may login manually via the website.<br/><br/>Link:<br/><a href='http://comp1640.ddns.net/Management/FeedbackCMR.aspx?reportId=" + report.reportId + "'>View Report</a><br/><br/><br/>Disclaimer: This is an auto-generated email, hence no signature is required. It will also not reply to any queries.";
                             mail.IsBodyHtml = true;
 
                             using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
@@ -741,7 +741,7 @@ namespace EWSD.Management
                                 mail.To.Add(cmEmail);
                             }
                             mail.Subject = "Course Monitoring Report for " + literalCourseTitle.Text;
-                            mail.Body = "The Course Monitoring Report (CMR) for Academic Session " + literalAcademicSession.Text + " has been given feedback.<br/><br/>Visit the link below to view the CMR right away, or you may login manually via the website.<br/><br/>Link:<br/><a href='http://comp1640.ddns.net/Course/ViewCMR.aspx?reportId=" + report.reportId + "'>View Report</a><br/><br/><br/>Disclaimer: This is an auto-generated email, hence no signature is required. It will also not reply to any queries.";
+                            mail.Body = "The Course Monitoring Report (CMR) for Academic Session " + literalAcademicYear.Text + " has been given feedback.<br/><br/>Visit the link below to view the CMR right away, or you may login manually via the website.<br/><br/>Link:<br/><a href='http://comp1640.ddns.net/Course/ViewCMR.aspx?reportId=" + report.reportId + "'>View Report</a><br/><br/><br/>Disclaimer: This is an auto-generated email, hence no signature is required. It will also not reply to any queries.";
                             mail.IsBodyHtml = true;
 
                             using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
@@ -753,7 +753,7 @@ namespace EWSD.Management
                         }
 
                         conn.Close();
-                        literalAcademicSession.Text = "Feedback successfully submitted. Page will refresh in 3 seconds.";
+                        literalActionSuccess.Text = "Feedback successfully submitted. Page will refresh in 3 seconds.";
                         Response.AddHeader("REFRESH", "3;");
                     }
                     catch (Exception ex)

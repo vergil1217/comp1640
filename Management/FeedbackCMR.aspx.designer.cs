@@ -58,31 +58,31 @@ namespace EWSD.Management {
         protected global::System.Web.UI.WebControls.Button bSelectFaculty;
         
         /// <summary>
-        /// panelSelectAcademicSession control.
+        /// panelSelectAcademicYear control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel panelSelectAcademicSession;
+        protected global::System.Web.UI.WebControls.Panel panelSelectAcademicYear;
         
         /// <summary>
-        /// comboAcademicSession control.
+        /// comboAcademicYear control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList comboAcademicSession;
+        protected global::System.Web.UI.WebControls.DropDownList comboAcademicYear;
         
         /// <summary>
-        /// bSelectAcademicSession control.
+        /// bSelectAcademicYear control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button bSelectAcademicSession;
+        protected global::System.Web.UI.WebControls.Button bSelectAcademicYear;
         
         /// <summary>
         /// panelSelectReportId control.
@@ -121,13 +121,13 @@ namespace EWSD.Management {
         protected global::System.Web.UI.WebControls.Panel panelCMRBody;
         
         /// <summary>
-        /// literalAcademicSession control.
+        /// literalAcademicYear control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal literalAcademicSession;
+        protected global::System.Web.UI.WebControls.Literal literalAcademicYear;
         
         /// <summary>
         /// literalCourseTitle control.
