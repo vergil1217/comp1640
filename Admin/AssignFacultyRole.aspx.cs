@@ -59,15 +59,8 @@ namespace EWSD.Admin
                             }
                         }
 
-                        cmd.CommandText = "SELECT * FROM staff WHERE user_role = @role";
-                        if (role.Equals("pvc"))
-                        {
-                            cmd.Parameters.Add("@role", SqlDbType.Int, 50).Value = 4;
-                        }
-                        else if (role.Equals("dlt"))
-                        {
-                            cmd.Parameters.Add("@role", SqlDbType.Int, 50).Value = 3;
-                        }
+                        cmd.CommandText = "SELECT * FROM staff WHERE user_role = (SELECT role_id FROM roles WHERE role_name = @role)";
+                        cmd.Parameters.Add("@role", SqlDbType.VarChar, 30).Value = role;
 
                         cmd.Prepare();
 

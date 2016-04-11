@@ -33,8 +33,10 @@ namespace EWSD.Admin
                     using (SqlCommand cmd = new SqlCommand())
                     {
                         cmd.Connection = conn;
-                        cmd.CommandText = "SELECT * FROM staff WHERE user_role = " + getStaffRole();
+                        cmd.CommandText = "SELECT * FROM staff WHERE user_role = (SELECT role_id FROM roles WHERE role_name = @roleName)";
                         cmd.Prepare();
+
+                        cmd.Parameters.AddWithValue("@roleName", role);
 
                         conn.Open();
                         using (SqlDataReader reader = cmd.ExecuteReader())
@@ -52,6 +54,8 @@ namespace EWSD.Admin
                                 bSelectFaculty.Enabled = false;
                             }
                         }
+
+                        cmd.Parameters.Clear();
 
                         cmd.CommandText = "SELECT * FROM faculty";
                         cmd.Prepare();
@@ -108,6 +112,8 @@ namespace EWSD.Admin
 
         protected void bSelectCourse_Click(object sender, EventArgs e)
         {
+            role = Request.QueryString["role"];
+
             literalActionSuccess.Text = "";
             literalWarning.Text = "";
 
@@ -116,8 +122,10 @@ namespace EWSD.Admin
                 using (SqlCommand cmd = new SqlCommand())
                 {
                     cmd.Connection = conn;
-                    cmd.CommandText = "SELECT * FROM staff WHERE user_role = " + getStaffRole();
+                    cmd.CommandText = "SELECT * FROM staff WHERE user_role = (SELECT role_id FROM roles WHERE role_name = @roleName)";
                     cmd.Prepare();
+
+                    cmd.Parameters.AddWithValue("@roleName", role);
 
                     conn.Open();
                     using(SqlDataReader reader = cmd.ExecuteReader())
@@ -128,6 +136,8 @@ namespace EWSD.Admin
                             comboStaff.Items.Add(item);
                         }
                     }
+
+                    cmd.Parameters.Clear();
 
                     panelSelectStaff.Visible = true;
                     panelSelectCourse.Visible = false;
