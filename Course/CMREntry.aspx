@@ -145,8 +145,8 @@
             <h3 style="text-align:center;">Course Monitoring Report</h3>
             <table style="margin-left:auto;margin-right:auto;font-size:18px;">
                 <tr>
-                    <td>Academic Session: </td>
-                    <td><asp:TextBox ID="fieldAcademicSession" runat="server"></asp:TextBox></td>
+                    <td>Academic Year: </td>
+                    <td><asp:TextBox ID="fieldAcademicYear" TextMode="Number"  min="2000" step="1" runat="server"></asp:TextBox></td>
                 </tr>
                 <tr>
                     <td>Course Title: </td>

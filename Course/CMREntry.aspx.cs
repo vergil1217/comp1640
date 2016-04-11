@@ -61,7 +61,7 @@ namespace EWSD.Course
                         {
                             panelCMRHead.Visible = false;
                             panelCMRBody.Visible = false;
-                            literalWarning.Text = "You do not belong to any courses. Check with your higher ups.";
+                            literalWarning.Text = "You do not belong to any courses or you are not a Course Leader. Check with your higher ups.";
                         }
                         else
                         {
@@ -172,9 +172,9 @@ namespace EWSD.Course
         {
             literalWarning.Text = "";
 
-            if(fieldAcademicSession.Text == "")
+            if(fieldAcademicYear.Text == "")
             {
-                literalWarning.Text = "Academic session is required.";
+                literalWarning.Text = "Academic Year is required.";
                 return;
             }
 
@@ -202,9 +202,9 @@ namespace EWSD.Course
 
             using (SqlConnection conn = new SqlConnection(WebConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
             {
-                Statistics stat1 = new Statistics(0, fieldAcademicSession.Text, comboCw1.SelectedValue, double.Parse(fieldCw1Mean.Text), double.Parse(fieldCw1Median.Text), double.Parse(fieldCw1StdDev.Text), double.Parse(fieldGddCw1Group1.Text), double.Parse(fieldGddCw1Group2.Text), double.Parse(fieldGddCw1Group3.Text), double.Parse(fieldGddCw1Group4.Text), double.Parse(fieldGddCw1Group5.Text), double.Parse(fieldGddCw1Group6.Text), double.Parse(fieldGddCw1Group7.Text), double.Parse(fieldGddCw1Group8.Text), double.Parse(fieldGddCw1Group9.Text), double.Parse(fieldGddCw1Group10.Text));
-                Statistics stat2 = new Statistics(0, fieldAcademicSession.Text, comboCw2.SelectedValue, double.Parse(fieldCw2Mean.Text), double.Parse(fieldCw2Median.Text), double.Parse(fieldCw2StdDev.Text), double.Parse(fieldGddCw2Group1.Text), double.Parse(fieldGddCw2Group2.Text), double.Parse(fieldGddCw2Group3.Text), double.Parse(fieldGddCw2Group4.Text), double.Parse(fieldGddCw2Group5.Text), double.Parse(fieldGddCw2Group6.Text), double.Parse(fieldGddCw2Group7.Text), double.Parse(fieldGddCw2Group8.Text), double.Parse(fieldGddCw2Group9.Text), double.Parse(fieldGddCw2Group10.Text));
-                Statistics stat3 = new Statistics(0, fieldAcademicSession.Text, comboCw3.SelectedValue, double.Parse(fieldCw3Mean.Text), double.Parse(fieldCw3Median.Text), double.Parse(fieldCw3StdDev.Text), double.Parse(fieldGddCw3Group1.Text), double.Parse(fieldGddCw3Group2.Text), double.Parse(fieldGddCw3Group3.Text), double.Parse(fieldGddCw3Group4.Text), double.Parse(fieldGddCw3Group5.Text), double.Parse(fieldGddCw3Group6.Text), double.Parse(fieldGddCw3Group7.Text), double.Parse(fieldGddCw3Group8.Text), double.Parse(fieldGddCw3Group9.Text), double.Parse(fieldGddCw3Group10.Text));
+                Statistics stat1 = new Statistics(0, int.Parse(fieldAcademicYear.Text), comboCw1.SelectedValue, double.Parse(fieldCw1Mean.Text), double.Parse(fieldCw1Median.Text), double.Parse(fieldCw1StdDev.Text), double.Parse(fieldGddCw1Group1.Text), double.Parse(fieldGddCw1Group2.Text), double.Parse(fieldGddCw1Group3.Text), double.Parse(fieldGddCw1Group4.Text), double.Parse(fieldGddCw1Group5.Text), double.Parse(fieldGddCw1Group6.Text), double.Parse(fieldGddCw1Group7.Text), double.Parse(fieldGddCw1Group8.Text), double.Parse(fieldGddCw1Group9.Text), double.Parse(fieldGddCw1Group10.Text));
+                Statistics stat2 = new Statistics(0, int.Parse(fieldAcademicYear.Text), comboCw2.SelectedValue, double.Parse(fieldCw2Mean.Text), double.Parse(fieldCw2Median.Text), double.Parse(fieldCw2StdDev.Text), double.Parse(fieldGddCw2Group1.Text), double.Parse(fieldGddCw2Group2.Text), double.Parse(fieldGddCw2Group3.Text), double.Parse(fieldGddCw2Group4.Text), double.Parse(fieldGddCw2Group5.Text), double.Parse(fieldGddCw2Group6.Text), double.Parse(fieldGddCw2Group7.Text), double.Parse(fieldGddCw2Group8.Text), double.Parse(fieldGddCw2Group9.Text), double.Parse(fieldGddCw2Group10.Text));
+                Statistics stat3 = new Statistics(0, int.Parse(fieldAcademicYear.Text), comboCw3.SelectedValue, double.Parse(fieldCw3Mean.Text), double.Parse(fieldCw3Median.Text), double.Parse(fieldCw3StdDev.Text), double.Parse(fieldGddCw3Group1.Text), double.Parse(fieldGddCw3Group2.Text), double.Parse(fieldGddCw3Group3.Text), double.Parse(fieldGddCw3Group4.Text), double.Parse(fieldGddCw3Group5.Text), double.Parse(fieldGddCw3Group6.Text), double.Parse(fieldGddCw3Group7.Text), double.Parse(fieldGddCw3Group8.Text), double.Parse(fieldGddCw3Group9.Text), double.Parse(fieldGddCw3Group10.Text));
 
                 ArrayList arrStats = new ArrayList();
                 arrStats.Add(stat1);
@@ -214,8 +214,8 @@ namespace EWSD.Course
                 using (SqlCommand cmd = new SqlCommand())
                 {
                     cmd.Connection = conn;
-                    cmd.CommandText = "INSERT INTO statistic (academic_session, coursework_code, mean, median, standard_deviation, grade_dist_group_1, grade_dist_group_2, grade_dist_group_3, grade_dist_group_4, grade_dist_group_5, grade_dist_group_6, grade_dist_group_7, grade_dist_group_8, grade_dist_group_9, grade_dist_group_10) VALUES " +
-                        "(@academicSession, @cwCode, @mean, @median, @stdDev, @group1, @group2, @group3, @group4, @group5, @group6, @group7, @group8, @group9, @group10)";
+                    cmd.CommandText = "INSERT INTO statistic (academic_year, coursework_code, mean, median, standard_deviation, grade_dist_group_1, grade_dist_group_2, grade_dist_group_3, grade_dist_group_4, grade_dist_group_5, grade_dist_group_6, grade_dist_group_7, grade_dist_group_8, grade_dist_group_9, grade_dist_group_10) VALUES " +
+                        "(@academicYear, @cwCode, @mean, @median, @stdDev, @group1, @group2, @group3, @group4, @group5, @group6, @group7, @group8, @group9, @group10)";
                     cmd.Prepare();
 
                     conn.Open();
@@ -223,7 +223,7 @@ namespace EWSD.Course
                     foreach(Statistics s in arrStats)
                     {
                         cmd.Parameters.Clear();
-                        cmd.Parameters.AddWithValue("@academicSession", s.academicSession);
+                        cmd.Parameters.AddWithValue("@academicYear", s.academicYear);
                         cmd.Parameters.AddWithValue("@cwCode", s.courseworkCode);
                         cmd.Parameters.AddWithValue("@mean", s.mean);
                         cmd.Parameters.AddWithValue("@median", s.median);
@@ -275,14 +275,14 @@ namespace EWSD.Course
 
                     Report report = new Report(reportNo, arrStats, int.Parse(fieldStudentCount.Text), fieldGeneralComments.Text, fieldActionTaken.Text, DateTime.Now, null, null, DateTime.MinValue, null);
 
-                    cmd.CommandText = "INSERT INTO reports VALUES (@reportId, @statId, @acadSession, @studCount, @comments, @actionTaken, @reportDate, null, null, null, null)";
+                    cmd.CommandText = "INSERT INTO reports VALUES (@reportId, @statId, @acadYear, @studCount, @comments, @actionTaken, @reportDate, null, null, null, null)";
 
                     foreach (Statistics s in report.statistics)
                     {
                         cmd.Parameters.Clear();
                         cmd.Parameters.AddWithValue("@reportId", report.reportId);
                         cmd.Parameters.AddWithValue("@statId", s.statisticId);
-                        cmd.Parameters.AddWithValue("@acadSession", s.academicSession);
+                        cmd.Parameters.AddWithValue("@acadYear", s.academicYear);
                         cmd.Parameters.AddWithValue("@studCount", report.studentCount);
                         cmd.Parameters.AddWithValue("@comments", report.comments);
                         cmd.Parameters.AddWithValue("@actionTaken", report.actionTaken);
@@ -315,7 +315,7 @@ namespace EWSD.Course
                             mail.From = new MailAddress("comp1640.noreply@gmail.com");
                             mail.To.Add(email);
                             mail.Subject = "Course Monitoring Report for Course " + comboCourses.SelectedValue.ToUpper();
-                            mail.Body = "The Course Monitoring Report (CMR) for Academic Session " + fieldAcademicSession.Text + " is now ready for approval.<br/><br/>Visit the link below to review the CMR right away, or you may login manually via the website.<br/><br/>Link:<br/><a href='http://comp1640.ddns.net/Course/ViewCMR.aspx?reportId=" + report.reportId + "'>View Report</a><br/><br/><br/>Disclaimer: This is an auto-generated email, hence no signature is required. It will also not reply to any queries.";
+                            mail.Body = "The Course Monitoring Report (CMR) for Academic Session " + fieldAcademicYear.Text + " is now ready for approval.<br/><br/>Visit the link below to review the CMR right away, or you may login manually via the website.<br/><br/>Link:<br/><a href='http://comp1640.ddns.net/Course/ViewCMR.aspx?reportId=" + report.reportId + "'>View Report</a><br/><br/><br/>Disclaimer: This is an auto-generated email, hence no signature is required. It will also not reply to any queries.";
                             mail.IsBodyHtml = true;
 
                             using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))

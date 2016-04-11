@@ -40,13 +40,13 @@ namespace EWSD.Course {
         protected global::System.Web.UI.WebControls.Panel panelCMRHead;
         
         /// <summary>
-        /// fieldAcademicSession control.
+        /// fieldAcademicYear control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox fieldAcademicSession;
+        protected global::System.Web.UI.WebControls.TextBox fieldAcademicYear;
         
         /// <summary>
         /// comboCourses control.
