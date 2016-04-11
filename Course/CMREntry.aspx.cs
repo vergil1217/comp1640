@@ -328,8 +328,7 @@ namespace EWSD.Course
                     }
                     catch (Exception ex)
                     {
-                        string ea = ex.Message.ToString();
-
+                        literalWarning.Text = ex.Message;
                     }
 
                     conn.Close();
