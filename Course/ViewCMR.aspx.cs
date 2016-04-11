@@ -256,6 +256,7 @@ namespace EWSD.Course
                             fieldGeneralComments.Text = report.comments;
                             fieldActionTaken.Text = report.actionTaken;
 
+                            cmd.Parameters.Clear();
                             cmd.CommandText = "SELECT DISTINCT dlt_comment FROM reports WHERE report_id = @reportId";
                             cmd.Prepare();
 
