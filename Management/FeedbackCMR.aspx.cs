@@ -718,7 +718,7 @@ namespace EWSD.Management
                                 mail.To.Add(dltEmail);
                             }
                             mail.Subject = "Course Monitoring Report for " + literalCourseTitle.Text;
-                            mail.Body = "The Course Monitoring Report (CMR) for Academic Session " + literalAcademicSession.Text + " has been given feedback.<br/><br/>Visit the link below to view the CMR right away, or you may login manually via the website.<br/><br/>Link:<br/><a href='http://comp1640.ddns.net/Management/FeedbackCMR?reportId=" + report.reportId + "'>View Report</a><br/><br/><br/>Disclaimer: This is an auto-generated email, hence no signature is required. It will also not reply to any queries.";
+                            mail.Body = "The Course Monitoring Report (CMR) for Academic Session " + literalAcademicSession.Text + " has been given feedback.<br/><br/>Visit the link below to view the CMR right away, or you may login manually via the website.<br/><br/>Link:<br/><a href='http://comp1640.ddns.net/Management/FeedbackCMR.aspx?reportId=" + report.reportId + "'>View Report</a><br/><br/><br/>Disclaimer: This is an auto-generated email, hence no signature is required. It will also not reply to any queries.";
                             mail.IsBodyHtml = true;
 
                             using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
@@ -741,7 +741,7 @@ namespace EWSD.Management
                                 mail.To.Add(cmEmail);
                             }
                             mail.Subject = "Course Monitoring Report for " + literalCourseTitle.Text;
-                            mail.Body = "The Course Monitoring Report (CMR) for Academic Session " + literalAcademicSession.Text + " has been given feedback.<br/><br/>Visit the link below to view the CMR right away, or you may login manually via the website.<br/><br/>Link:<br/><a href='http://comp1640.ddns.net/Course/ViewCMR?reportId=" + report.reportId + "'>View Report</a><br/><br/><br/>Disclaimer: This is an auto-generated email, hence no signature is required. It will also not reply to any queries.";
+                            mail.Body = "The Course Monitoring Report (CMR) for Academic Session " + literalAcademicSession.Text + " has been given feedback.<br/><br/>Visit the link below to view the CMR right away, or you may login manually via the website.<br/><br/>Link:<br/><a href='http://comp1640.ddns.net/Course/ViewCMR.aspx?reportId=" + report.reportId + "'>View Report</a><br/><br/><br/>Disclaimer: This is an auto-generated email, hence no signature is required. It will also not reply to any queries.";
                             mail.IsBodyHtml = true;
 
                             using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
