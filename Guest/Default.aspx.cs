@@ -31,6 +31,11 @@ namespace EWSD.Guest
                                 ListItem item = new ListItem(reader.GetInt32(0).ToString() , reader.GetInt32(0).ToString());
                                 comboApprovedCMR.Items.Add(item);
                             }
+                            if(comboApprovedCMR.Items.Count < 1)
+                            {
+                                comboApprovedCMR.Items.Add("No approved reports");
+                                bViewReport.Enabled = false;
+                            }
                         }
                     }
                 }
