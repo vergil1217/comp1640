@@ -72,7 +72,7 @@ namespace EWSD.Management
                             {
                                 while (reader.Read())
                                 {
-                                    arrStats.Add(new Statistics(reader.GetInt32(0), reader.GetInt32(1), reader.GetString(2), Convert.ToDouble(reader.GetDecimal(3)), Convert.ToDouble(reader.GetDecimal(4)), Convert.ToDouble(reader.GetDecimal(5)), Convert.ToDouble(reader.GetDecimal(6)), Convert.ToDouble(reader.GetDecimal(7)), Convert.ToDouble(reader.GetDecimal(8)), Convert.ToDouble(reader.GetDecimal(9)), Convert.ToDouble(reader.GetDecimal(10)), Convert.ToDouble(reader.GetDecimal(11)), Convert.ToDouble(reader.GetDecimal(12)), Convert.ToDouble(reader.GetDecimal(13)), Convert.ToDouble(reader.GetDecimal(14)), Convert.ToDouble(reader.GetDecimal(15))));
+                                    arrStats.Add(new Statistics(reader.GetInt32(0), reader.GetInt32(1), reader.GetString(2), reader.GetInt32(3), Convert.ToDouble(reader.GetDecimal(4)), Convert.ToDouble(reader.GetDecimal(5)), Convert.ToDouble(reader.GetDecimal(6)), Convert.ToDouble(reader.GetDecimal(7)), Convert.ToDouble(reader.GetDecimal(8)), Convert.ToDouble(reader.GetDecimal(9)), Convert.ToDouble(reader.GetDecimal(10)), Convert.ToDouble(reader.GetDecimal(11)), Convert.ToDouble(reader.GetDecimal(12)), Convert.ToDouble(reader.GetDecimal(13)), Convert.ToDouble(reader.GetDecimal(14)), Convert.ToDouble(reader.GetDecimal(15)), Convert.ToDouble(reader.GetDecimal(16))));
                                 }
                             }
 
@@ -99,10 +99,9 @@ namespace EWSD.Management
 
                             literalAcademicYear.Text = ((Statistics)report.statistics[0]).academicYear.ToString();
 
-                            cmd.CommandText = "SELECT course_title FROM course WHERE course_code IN (" +
-                                "SELECT parent_course FROM coursework WHERE coursework_code IN (" +
+                            cmd.CommandText = "SELECT coursework_title FROM coursework WHERE coursework_code IN (" +
                                     "SELECT coursework_code FROM statistic WHERE stat_id IN (" +
-                                        "SELECT stat_id FROM reports WHERE report_id = @reportId)))";
+                                        "SELECT stat_id FROM reports WHERE report_id = @reportId))";
                             cmd.Prepare();
 
                             cmd.Parameters.AddWithValue("@reportId", report.reportId);
@@ -111,7 +110,7 @@ namespace EWSD.Management
                             {
                                 if (reader.Read())
                                 {
-                                    literalCourseTitle.Text = reader.GetString(0);
+                                    literalCourseworkTitle.Text = reader.GetString(0);
                                 }
                             }
 
@@ -119,29 +118,58 @@ namespace EWSD.Management
 
                             literalStudentCount.Text = report.studentCount.ToString();
 
-                            cmd.CommandText = "SELECT coursework_code, coursework_title FROM coursework WHERE coursework_code IN (" +
+                            cmd.CommandText = "SELECT coursework_1, coursework_2, exam FROM coursework WHERE coursework_code IN (" +
                                 "SELECT coursework_code FROM statistic WHERE stat_id IN (" +
                                     "SELECT stat_id FROM reports WHERE report_id = @reportId))";
                             cmd.Prepare();
 
-                            cmd.Parameters.AddWithValue("@reportId", comboReportId.SelectedValue);
+                            cmd.Parameters.AddWithValue("@reportId", report.reportId);
 
                             using (SqlDataReader reader = cmd.ExecuteReader())
                             {
-                                while (reader.Read())
+                                if (reader.Read())
                                 {
-                                    literalSubjectList.Text += reader.GetString(0).ToUpper() + " - " + reader.GetString(1) + "<br/>";
+                                    if (reader.GetBoolean(0))
+                                    {
+                                        literalAssessmentList.Text += "Coursework 1<br/>";
+                                    }
+
+                                    if (reader.GetBoolean(1))
+                                    {
+                                        literalAssessmentList.Text += "Coursework 2<br/>";
+                                    }
+
+                                    if (reader.GetBoolean(2))
+                                    {
+                                        literalAssessmentList.Text += "Exam<br/>";
+                                    }
                                 }
                             }
 
-                            for (int i = 0; i < report.statistics.Count; i++)
+                            double totalOverallMean, totalOverallMedian, totalOverallStdDev, totalOverallGroup1, totalOverallGroup2, totalOverallGroup3, totalOverallGroup4, totalOverallGroup5, totalOverallGroup6, totalOverallGroup7, totalOverallGroup8, totalOverallGroup9, totalOverallGroup10;
+                            totalOverallMean = totalOverallMedian = totalOverallStdDev = totalOverallGroup1 = totalOverallGroup2 = totalOverallGroup3 = totalOverallGroup4 = totalOverallGroup5 = totalOverallGroup6 = totalOverallGroup7 = totalOverallGroup8 = totalOverallGroup9 = totalOverallGroup10 = 0;
+
+                            foreach (Statistics s in arrStats)
                             {
-                                Statistics s = ((Statistics)arrStats[i]);
-                                switch (i)
+                                totalOverallMean += s.mean;
+                                totalOverallMedian += s.median;
+                                totalOverallStdDev += s.standardDeviation;
+                                totalOverallGroup1 += s.gdGroup1;
+                                totalOverallGroup2 += s.gdGroup2;
+                                totalOverallGroup3 += s.gdGroup3;
+                                totalOverallGroup4 += s.gdGroup4;
+                                totalOverallGroup5 += s.gdGroup5;
+                                totalOverallGroup6 += s.gdGroup6;
+                                totalOverallGroup7 += s.gdGroup7;
+                                totalOverallGroup8 += s.gdGroup8;
+                                totalOverallGroup9 += s.gdGroup9;
+                                totalOverallGroup10 += s.gdGroup10;
+
+                                switch (s.assessmentType)
                                 {
-                                    case 0:
-                                        fieldCw1.Text = s.courseworkCode.ToUpper();
-                                        comboGddCw1.Text = s.courseworkCode.ToUpper();
+                                    case 1:
+                                        rowGddCw1.Visible = true;
+                                        rowStatCw1.Visible = true;
 
                                         fieldCw1Mean.Text = s.mean.ToString();
                                         fieldCw1Median.Text = s.median.ToString();
@@ -157,9 +185,9 @@ namespace EWSD.Management
                                         fieldGddCw1Group9.Text = s.gdGroup9.ToString();
                                         fieldGddCw1Group10.Text = s.gdGroup10.ToString();
                                         break;
-                                    case 1:
-                                        fieldCw2.Text = s.courseworkCode.ToUpper();
-                                        comboGddCw2.Text = s.courseworkCode.ToUpper();
+                                    case 2:
+                                        rowGddCw2.Visible = true;
+                                        rowStatCw2.Visible = true;
 
                                         fieldCw2Mean.Text = s.mean.ToString();
                                         fieldCw2Median.Text = s.median.ToString();
@@ -175,41 +203,41 @@ namespace EWSD.Management
                                         fieldGddCw2Group9.Text = s.gdGroup9.ToString();
                                         fieldGddCw2Group10.Text = s.gdGroup10.ToString();
                                         break;
-                                    case 2:
-                                        fieldCw3.Text = s.courseworkCode.ToUpper();
-                                        comboGddCw3.Text = s.courseworkCode.ToUpper();
+                                    case 3:
+                                        rowGddExam.Visible = true;
+                                        rowStatExam.Visible = true;
 
-                                        fieldCw3Mean.Text = s.mean.ToString();
-                                        fieldCw3Median.Text = s.median.ToString();
-                                        fieldCw3StdDev.Text = s.standardDeviation.ToString();
-                                        fieldGddCw3Group1.Text = s.gdGroup1.ToString();
-                                        fieldGddCw3Group2.Text = s.gdGroup2.ToString();
-                                        fieldGddCw3Group3.Text = s.gdGroup3.ToString();
-                                        fieldGddCw3Group4.Text = s.gdGroup4.ToString();
-                                        fieldGddCw3Group5.Text = s.gdGroup5.ToString();
-                                        fieldGddCw3Group6.Text = s.gdGroup6.ToString();
-                                        fieldGddCw3Group7.Text = s.gdGroup7.ToString();
-                                        fieldGddCw3Group8.Text = s.gdGroup8.ToString();
-                                        fieldGddCw3Group9.Text = s.gdGroup9.ToString();
-                                        fieldGddCw3Group10.Text = s.gdGroup10.ToString();
+                                        fieldExamMean.Text = s.mean.ToString();
+                                        fieldExamMedian.Text = s.median.ToString();
+                                        fieldExamStdDev.Text = s.standardDeviation.ToString();
+                                        fieldGddExamGroup1.Text = s.gdGroup1.ToString();
+                                        fieldGddExamGroup2.Text = s.gdGroup2.ToString();
+                                        fieldGddExamGroup3.Text = s.gdGroup3.ToString();
+                                        fieldGddExamGroup4.Text = s.gdGroup4.ToString();
+                                        fieldGddExamGroup5.Text = s.gdGroup5.ToString();
+                                        fieldGddExamGroup6.Text = s.gdGroup6.ToString();
+                                        fieldGddExamGroup7.Text = s.gdGroup7.ToString();
+                                        fieldGddExamGroup8.Text = s.gdGroup8.ToString();
+                                        fieldGddExamGroup9.Text = s.gdGroup9.ToString();
+                                        fieldGddExamGroup10.Text = s.gdGroup10.ToString();
                                         break;
                                 }
                             }
 
-                            overallMean.Text = (double.Parse(fieldCw1Mean.Text) + double.Parse(fieldCw2Mean.Text) + double.Parse(fieldCw3Mean.Text)).ToString();
-                            overallMedian.Text = (double.Parse(fieldCw1Median.Text) + double.Parse(fieldCw2Median.Text) + double.Parse(fieldCw3Median.Text)).ToString();
-                            overallStdDev.Text = (double.Parse(fieldCw1StdDev.Text) + double.Parse(fieldCw2StdDev.Text) + double.Parse(fieldCw3StdDev.Text)).ToString();
+                            overallMean.Text = totalOverallMean.ToString();
+                            overallMedian.Text = totalOverallMedian.ToString();
+                            overallStdDev.Text = totalOverallStdDev.ToString();
 
-                            overallGroup1.Text = (double.Parse(fieldGddCw1Group1.Text) + double.Parse(fieldGddCw2Group1.Text) + double.Parse(fieldGddCw3Group1.Text)).ToString();
-                            overallGroup2.Text = (double.Parse(fieldGddCw1Group2.Text) + double.Parse(fieldGddCw2Group2.Text) + double.Parse(fieldGddCw3Group2.Text)).ToString();
-                            overallGroup3.Text = (double.Parse(fieldGddCw1Group3.Text) + double.Parse(fieldGddCw2Group3.Text) + double.Parse(fieldGddCw3Group3.Text)).ToString();
-                            overallGroup4.Text = (double.Parse(fieldGddCw1Group4.Text) + double.Parse(fieldGddCw2Group4.Text) + double.Parse(fieldGddCw3Group4.Text)).ToString();
-                            overallGroup5.Text = (double.Parse(fieldGddCw1Group5.Text) + double.Parse(fieldGddCw2Group5.Text) + double.Parse(fieldGddCw3Group5.Text)).ToString();
-                            overallGroup6.Text = (double.Parse(fieldGddCw1Group6.Text) + double.Parse(fieldGddCw2Group6.Text) + double.Parse(fieldGddCw3Group6.Text)).ToString();
-                            overallGroup7.Text = (double.Parse(fieldGddCw1Group7.Text) + double.Parse(fieldGddCw2Group7.Text) + double.Parse(fieldGddCw3Group7.Text)).ToString();
-                            overallGroup8.Text = (double.Parse(fieldGddCw1Group8.Text) + double.Parse(fieldGddCw2Group8.Text) + double.Parse(fieldGddCw3Group8.Text)).ToString();
-                            overallGroup9.Text = (double.Parse(fieldGddCw1Group9.Text) + double.Parse(fieldGddCw2Group9.Text) + double.Parse(fieldGddCw3Group9.Text)).ToString();
-                            overallGroup10.Text = (double.Parse(fieldGddCw1Group10.Text) + double.Parse(fieldGddCw2Group10.Text) + double.Parse(fieldGddCw3Group10.Text)).ToString();
+                            overallGroup1.Text = totalOverallGroup1.ToString();
+                            overallGroup2.Text = totalOverallGroup2.ToString();
+                            overallGroup3.Text = totalOverallGroup3.ToString();
+                            overallGroup4.Text = totalOverallGroup4.ToString();
+                            overallGroup5.Text = totalOverallGroup5.ToString();
+                            overallGroup6.Text = totalOverallGroup6.ToString();
+                            overallGroup7.Text = totalOverallGroup7.ToString();
+                            overallGroup8.Text = totalOverallGroup8.ToString();
+                            overallGroup9.Text = totalOverallGroup9.ToString();
+                            overallGroup10.Text = totalOverallGroup10.ToString();
 
                             fieldGeneralComments.Text = report.comments;
                             fieldActionTaken.Text = report.actionTaken;
@@ -303,7 +331,7 @@ namespace EWSD.Management
                         "SELECT stat_id FROM statistic WHERE coursework_code IN (" +
                             "SELECT coursework_code FROM coursework WHERE parent_course IN (" +
                                 "SELECT course_code FROM course WHERE registered_faculty = @facultyCode))) " +
-                                    "AND academic_session = @acadYear and approved_by IS NOT NULL";
+                                    "AND academic_year = @acadYear and approved_by IS NOT NULL";
                     cmd.Prepare();
 
                     cmd.Parameters.AddWithValue("@facultyCode", comboFaculties.SelectedValue);
@@ -323,11 +351,9 @@ namespace EWSD.Management
                             comboReportId.Items.Add("No reports available");
                             bSelectReport.Enabled = false;
                         }
-                        else
-                        {
-                            panelSelectAcademicYear.Visible = false;
-                            panelSelectReportId.Visible = true;
-                        }
+
+                        panelSelectAcademicYear.Visible = false;
+                        panelSelectReportId.Visible = true;
                     }
                 }
             }
@@ -352,7 +378,7 @@ namespace EWSD.Management
                     {
                         while (reader.Read())
                         {
-                            arrStats.Add(new Statistics(reader.GetInt32(0), reader.GetInt32(1), reader.GetString(2), Convert.ToDouble(reader.GetDecimal(3)), Convert.ToDouble(reader.GetDecimal(4)), Convert.ToDouble(reader.GetDecimal(5)), Convert.ToDouble(reader.GetDecimal(6)), Convert.ToDouble(reader.GetDecimal(7)), Convert.ToDouble(reader.GetDecimal(8)), Convert.ToDouble(reader.GetDecimal(9)), Convert.ToDouble(reader.GetDecimal(10)), Convert.ToDouble(reader.GetDecimal(11)), Convert.ToDouble(reader.GetDecimal(12)), Convert.ToDouble(reader.GetDecimal(13)), Convert.ToDouble(reader.GetDecimal(14)), Convert.ToDouble(reader.GetDecimal(15))));
+                            arrStats.Add(new Statistics(reader.GetInt32(0), reader.GetInt32(1), reader.GetString(2), reader.GetInt32(3), Convert.ToDouble(reader.GetDecimal(4)), Convert.ToDouble(reader.GetDecimal(5)), Convert.ToDouble(reader.GetDecimal(6)), Convert.ToDouble(reader.GetDecimal(7)), Convert.ToDouble(reader.GetDecimal(8)), Convert.ToDouble(reader.GetDecimal(9)), Convert.ToDouble(reader.GetDecimal(10)), Convert.ToDouble(reader.GetDecimal(11)), Convert.ToDouble(reader.GetDecimal(12)), Convert.ToDouble(reader.GetDecimal(13)), Convert.ToDouble(reader.GetDecimal(14)), Convert.ToDouble(reader.GetDecimal(15)), Convert.ToDouble(reader.GetDecimal(16))));
                         }
                     }
 
@@ -379,10 +405,9 @@ namespace EWSD.Management
 
                     literalAcademicYear.Text = ((Statistics)report.statistics[0]).academicYear.ToString();
 
-                    cmd.CommandText = "SELECT course_title FROM course WHERE course_code IN (" +
-                        "SELECT parent_course FROM coursework WHERE coursework_code IN (" +
+                    cmd.CommandText = "SELECT coursework_title FROM coursework WHERE coursework_code IN (" +
                             "SELECT coursework_code FROM statistic WHERE stat_id IN (" +
-                                "SELECT stat_id FROM reports WHERE report_id = @reportId)))";
+                                "SELECT stat_id FROM reports WHERE report_id = @reportId))";
                     cmd.Prepare();
 
                     cmd.Parameters.AddWithValue("@reportId", comboReportId.SelectedValue);
@@ -391,7 +416,7 @@ namespace EWSD.Management
                     {
                         if (reader.Read())
                         {
-                            literalCourseTitle.Text = reader.GetString(0);
+                            literalCourseworkTitle.Text = reader.GetString(0);
                         }
                     }
 
@@ -399,7 +424,7 @@ namespace EWSD.Management
 
                     literalStudentCount.Text = report.studentCount.ToString();
 
-                    cmd.CommandText = "SELECT coursework_code, coursework_title FROM coursework WHERE coursework_code IN (" +
+                    cmd.CommandText = "SELECT coursework_1, coursework_2, exam FROM coursework WHERE coursework_code IN (" +
                         "SELECT coursework_code FROM statistic WHERE stat_id IN (" +
                             "SELECT stat_id FROM reports WHERE report_id = @reportId))";
                     cmd.Prepare();
@@ -408,20 +433,49 @@ namespace EWSD.Management
 
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        while (reader.Read())
+                        if (reader.Read())
                         {
-                            literalSubjectList.Text += reader.GetString(0).ToUpper() + " - " + reader.GetString(1) + "<br/>";
+                            if (reader.GetBoolean(0))
+                            {
+                                literalAssessmentList.Text += "Coursework 1<br/>";
+                            }
+
+                            if (reader.GetBoolean(1))
+                            {
+                                literalAssessmentList.Text += "Coursework 2<br/>";
+                            }
+
+                            if (reader.GetBoolean(2))
+                            {
+                                literalAssessmentList.Text += "Exam<br/>";
+                            }
                         }
                     }
 
-                    for (int i = 0; i < report.statistics.Count; i++)
+                    double totalOverallMean, totalOverallMedian, totalOverallStdDev, totalOverallGroup1, totalOverallGroup2, totalOverallGroup3, totalOverallGroup4, totalOverallGroup5, totalOverallGroup6, totalOverallGroup7, totalOverallGroup8, totalOverallGroup9, totalOverallGroup10;
+                    totalOverallMean = totalOverallMedian = totalOverallStdDev = totalOverallGroup1 = totalOverallGroup2 = totalOverallGroup3 = totalOverallGroup4 = totalOverallGroup5 = totalOverallGroup6 = totalOverallGroup7 = totalOverallGroup8 = totalOverallGroup9 = totalOverallGroup10 = 0;
+
+                    foreach (Statistics s in arrStats)
                     {
-                        Statistics s = ((Statistics)arrStats[i]);
-                        switch (i)
+                        totalOverallMean += s.mean;
+                        totalOverallMedian += s.median;
+                        totalOverallStdDev += s.standardDeviation;
+                        totalOverallGroup1 += s.gdGroup1;
+                        totalOverallGroup2 += s.gdGroup2;
+                        totalOverallGroup3 += s.gdGroup3;
+                        totalOverallGroup4 += s.gdGroup4;
+                        totalOverallGroup5 += s.gdGroup5;
+                        totalOverallGroup6 += s.gdGroup6;
+                        totalOverallGroup7 += s.gdGroup7;
+                        totalOverallGroup8 += s.gdGroup8;
+                        totalOverallGroup9 += s.gdGroup9;
+                        totalOverallGroup10 += s.gdGroup10;
+
+                        switch (s.assessmentType)
                         {
-                            case 0:
-                                fieldCw1.Text = s.courseworkCode.ToUpper();
-                                comboGddCw1.Text = s.courseworkCode.ToUpper();
+                            case 1:
+                                rowGddCw1.Visible = true;
+                                rowStatCw1.Visible = true;
 
                                 fieldCw1Mean.Text = s.mean.ToString();
                                 fieldCw1Median.Text = s.median.ToString();
@@ -437,9 +491,9 @@ namespace EWSD.Management
                                 fieldGddCw1Group9.Text = s.gdGroup9.ToString();
                                 fieldGddCw1Group10.Text = s.gdGroup10.ToString();
                                 break;
-                            case 1:
-                                fieldCw2.Text = s.courseworkCode.ToUpper();
-                                comboGddCw2.Text = s.courseworkCode.ToUpper();
+                            case 2:
+                                rowGddCw2.Visible = true;
+                                rowStatCw2.Visible = true;
 
                                 fieldCw2Mean.Text = s.mean.ToString();
                                 fieldCw2Median.Text = s.median.ToString();
@@ -455,41 +509,41 @@ namespace EWSD.Management
                                 fieldGddCw2Group9.Text = s.gdGroup9.ToString();
                                 fieldGddCw2Group10.Text = s.gdGroup10.ToString();
                                 break;
-                            case 2:
-                                fieldCw3.Text = s.courseworkCode.ToUpper();
-                                comboGddCw3.Text = s.courseworkCode.ToUpper();
+                            case 3:
+                                rowGddExam.Visible = true;
+                                rowStatExam.Visible = true;
 
-                                fieldCw3Mean.Text = s.mean.ToString();
-                                fieldCw3Median.Text = s.median.ToString();
-                                fieldCw3StdDev.Text = s.standardDeviation.ToString();
-                                fieldGddCw3Group1.Text = s.gdGroup1.ToString();
-                                fieldGddCw3Group2.Text = s.gdGroup2.ToString();
-                                fieldGddCw3Group3.Text = s.gdGroup3.ToString();
-                                fieldGddCw3Group4.Text = s.gdGroup4.ToString();
-                                fieldGddCw3Group5.Text = s.gdGroup5.ToString();
-                                fieldGddCw3Group6.Text = s.gdGroup6.ToString();
-                                fieldGddCw3Group7.Text = s.gdGroup7.ToString();
-                                fieldGddCw3Group8.Text = s.gdGroup8.ToString();
-                                fieldGddCw3Group9.Text = s.gdGroup9.ToString();
-                                fieldGddCw3Group10.Text = s.gdGroup10.ToString();
+                                fieldExamMean.Text = s.mean.ToString();
+                                fieldExamMedian.Text = s.median.ToString();
+                                fieldExamStdDev.Text = s.standardDeviation.ToString();
+                                fieldGddExamGroup1.Text = s.gdGroup1.ToString();
+                                fieldGddExamGroup2.Text = s.gdGroup2.ToString();
+                                fieldGddExamGroup3.Text = s.gdGroup3.ToString();
+                                fieldGddExamGroup4.Text = s.gdGroup4.ToString();
+                                fieldGddExamGroup5.Text = s.gdGroup5.ToString();
+                                fieldGddExamGroup6.Text = s.gdGroup6.ToString();
+                                fieldGddExamGroup7.Text = s.gdGroup7.ToString();
+                                fieldGddExamGroup8.Text = s.gdGroup8.ToString();
+                                fieldGddExamGroup9.Text = s.gdGroup9.ToString();
+                                fieldGddExamGroup10.Text = s.gdGroup10.ToString();
                                 break;
                         }
                     }
 
-                    overallMean.Text = (double.Parse(fieldCw1Mean.Text) + double.Parse(fieldCw2Mean.Text) + double.Parse(fieldCw3Mean.Text)).ToString();
-                    overallMedian.Text = (double.Parse(fieldCw1Median.Text) + double.Parse(fieldCw2Median.Text) + double.Parse(fieldCw3Median.Text)).ToString();
-                    overallStdDev.Text = (double.Parse(fieldCw1StdDev.Text) + double.Parse(fieldCw2StdDev.Text) + double.Parse(fieldCw3StdDev.Text)).ToString();
+                    overallMean.Text = totalOverallMean.ToString();
+                    overallMedian.Text = totalOverallMedian.ToString();
+                    overallStdDev.Text = totalOverallStdDev.ToString();
 
-                    overallGroup1.Text = (double.Parse(fieldGddCw1Group1.Text) + double.Parse(fieldGddCw2Group1.Text) + double.Parse(fieldGddCw3Group1.Text)).ToString();
-                    overallGroup2.Text = (double.Parse(fieldGddCw1Group2.Text) + double.Parse(fieldGddCw2Group2.Text) + double.Parse(fieldGddCw3Group2.Text)).ToString();
-                    overallGroup3.Text = (double.Parse(fieldGddCw1Group3.Text) + double.Parse(fieldGddCw2Group3.Text) + double.Parse(fieldGddCw3Group3.Text)).ToString();
-                    overallGroup4.Text = (double.Parse(fieldGddCw1Group4.Text) + double.Parse(fieldGddCw2Group4.Text) + double.Parse(fieldGddCw3Group4.Text)).ToString();
-                    overallGroup5.Text = (double.Parse(fieldGddCw1Group5.Text) + double.Parse(fieldGddCw2Group5.Text) + double.Parse(fieldGddCw3Group5.Text)).ToString();
-                    overallGroup6.Text = (double.Parse(fieldGddCw1Group6.Text) + double.Parse(fieldGddCw2Group6.Text) + double.Parse(fieldGddCw3Group6.Text)).ToString();
-                    overallGroup7.Text = (double.Parse(fieldGddCw1Group7.Text) + double.Parse(fieldGddCw2Group7.Text) + double.Parse(fieldGddCw3Group7.Text)).ToString();
-                    overallGroup8.Text = (double.Parse(fieldGddCw1Group8.Text) + double.Parse(fieldGddCw2Group8.Text) + double.Parse(fieldGddCw3Group8.Text)).ToString();
-                    overallGroup9.Text = (double.Parse(fieldGddCw1Group9.Text) + double.Parse(fieldGddCw2Group9.Text) + double.Parse(fieldGddCw3Group9.Text)).ToString();
-                    overallGroup10.Text = (double.Parse(fieldGddCw1Group10.Text) + double.Parse(fieldGddCw2Group10.Text) + double.Parse(fieldGddCw3Group10.Text)).ToString();
+                    overallGroup1.Text = totalOverallGroup1.ToString();
+                    overallGroup2.Text = totalOverallGroup2.ToString();
+                    overallGroup3.Text = totalOverallGroup3.ToString();
+                    overallGroup4.Text = totalOverallGroup4.ToString();
+                    overallGroup5.Text = totalOverallGroup5.ToString();
+                    overallGroup6.Text = totalOverallGroup6.ToString();
+                    overallGroup7.Text = totalOverallGroup7.ToString();
+                    overallGroup8.Text = totalOverallGroup8.ToString();
+                    overallGroup9.Text = totalOverallGroup9.ToString();
+                    overallGroup10.Text = totalOverallGroup10.ToString();
 
                     fieldGeneralComments.Text = report.comments;
                     fieldActionTaken.Text = report.actionTaken;
@@ -706,60 +760,90 @@ namespace EWSD.Management
 
                     try
                     {
-                        using (MailMessage mail = new MailMessage())
+                        if (pvcEmail != "")
                         {
-                            mail.From = new MailAddress("comp1640.noreply@gmail.com");
-                            if (pvcEmail != "")
+                            using (MailMessage mail = new MailMessage())
                             {
+                                mail.From = new MailAddress("comp1640.noreply@gmail.com");
                                 mail.To.Add(pvcEmail);
-                            }
-                            if (dltEmail != "")
-                            {
-                                mail.To.Add(dltEmail);
-                            }
-                            mail.Subject = "Course Monitoring Report for " + literalCourseTitle.Text;
-                            mail.Body = "The Course Monitoring Report (CMR) for Academic Session " + literalAcademicYear.Text + " has been given feedback.<br/><br/>Visit the link below to view the CMR right away, or you may login manually via the website.<br/><br/>Link:<br/><a href='http://comp1640.ddns.net/Management/FeedbackCMR.aspx?reportId=" + report.reportId + "'>View Report</a><br/><br/><br/>Disclaimer: This is an auto-generated email, hence no signature is required. It will also not reply to any queries.";
-                            mail.IsBodyHtml = true;
+                                mail.Subject = "Course Monitoring Report for " + literalCourseworkTitle.Text;
+                                mail.Body = "The Course Monitoring Report (CMR) for Academic Session " + literalAcademicYear.Text + " has been given feedback.<br/><br/>Visit the link below to view the CMR right away, or you may login manually via the website.<br/><br/>Link:<br/><a href='http://comp1640.ddns.net/Management/FeedbackCMR.aspx?reportId=" + report.reportId + "'>View Report</a><br/><br/><br/>Disclaimer: This is an auto-generated email, hence no signature is required. It will also not reply to any queries.";
+                                mail.IsBodyHtml = true;
 
-                            using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
-                            {
-                                smtp.Credentials = new NetworkCredential("comp1640.noreply@gmail.com", "Ilikeapple");
-                                smtp.EnableSsl = true;
-                                smtp.Send(mail);
+                                using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
+                                {
+                                    smtp.Credentials = new NetworkCredential("comp1640.noreply@gmail.com", "Ilikeapple");
+                                    smtp.EnableSsl = true;
+                                    smtp.Send(mail);
+                                }
                             }
                         }
 
-                        using (MailMessage mail = new MailMessage())
+                        if(dltEmail != "")
                         {
-                            mail.From = new MailAddress("comp1640.noreply@gmail.com");
-                            if (clEmail != "")
+                            using (MailMessage mail = new MailMessage())
                             {
-                                mail.To.Add(clEmail);
-                            }
-                            if (cmEmail != "")
-                            {
-                                mail.To.Add(cmEmail);
-                            }
-                            mail.Subject = "Course Monitoring Report for " + literalCourseTitle.Text;
-                            mail.Body = "The Course Monitoring Report (CMR) for Academic Session " + literalAcademicYear.Text + " has been given feedback.<br/><br/>Visit the link below to view the CMR right away, or you may login manually via the website.<br/><br/>Link:<br/><a href='http://comp1640.ddns.net/Course/ViewCMR.aspx?reportId=" + report.reportId + "'>View Report</a><br/><br/><br/>Disclaimer: This is an auto-generated email, hence no signature is required. It will also not reply to any queries.";
-                            mail.IsBodyHtml = true;
+                                mail.From = new MailAddress("comp1640.noreply@gmail.com");
+                                mail.To.Add(dltEmail);
+                                mail.Subject = "Course Monitoring Report for " + literalCourseworkTitle.Text;
+                                mail.Body = "The Course Monitoring Report (CMR) for Academic Session " + literalAcademicYear.Text + " has been given feedback.<br/><br/>Visit the link below to view the CMR right away, or you may login manually via the website.<br/><br/>Link:<br/><a href='http://comp1640.ddns.net/Management/FeedbackCMR.aspx?reportId=" + report.reportId + "'>View Report</a><br/><br/><br/>Disclaimer: This is an auto-generated email, hence no signature is required. It will also not reply to any queries.";
+                                mail.IsBodyHtml = true;
 
-                            using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
-                            {
-                                smtp.Credentials = new NetworkCredential("comp1640.noreply@gmail.com", "Ilikeapple");
-                                smtp.EnableSsl = true;
-                                smtp.Send(mail);
+                                using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
+                                {
+                                    smtp.Credentials = new NetworkCredential("comp1640.noreply@gmail.com", "Ilikeapple");
+                                    smtp.EnableSsl = true;
+                                    smtp.Send(mail);
+                                }
                             }
                         }
 
-                        conn.Close();
-                        literalActionSuccess.Text = "Feedback successfully submitted. Page will refresh in 3 seconds.";
-                        Response.AddHeader("REFRESH", "3;");
+                        if(clEmail != "")
+                        {
+                            using (MailMessage mail = new MailMessage())
+                            {
+                                mail.From = new MailAddress("comp1640.noreply@gmail.com");
+                                mail.To.Add(clEmail);
+                                mail.Subject = "Course Monitoring Report for " + literalCourseworkTitle.Text;
+                                mail.Body = "The Course Monitoring Report (CMR) for Academic Session " + literalAcademicYear.Text + " has been given feedback.<br/><br/>Visit the link below to view the CMR right away, or you may login manually via the website.<br/><br/>Link:<br/><a href='http://comp1640.ddns.net/Course/ViewCMR.aspx?reportId=" + report.reportId + "'>View Report</a><br/><br/><br/>Disclaimer: This is an auto-generated email, hence no signature is required. It will also not reply to any queries.";
+                                mail.IsBodyHtml = true;
+
+                                using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
+                                {
+                                    smtp.Credentials = new NetworkCredential("comp1640.noreply@gmail.com", "Ilikeapple");
+                                    smtp.EnableSsl = true;
+                                    smtp.Send(mail);
+                                }
+                            }
+                        }
+
+                        if(cmEmail != "")
+                        {
+                            using (MailMessage mail = new MailMessage())
+                            {
+                                mail.From = new MailAddress("comp1640.noreply@gmail.com");
+                                mail.To.Add(cmEmail);
+                                mail.Subject = "Course Monitoring Report for " + literalCourseworkTitle.Text;
+                                mail.Body = "The Course Monitoring Report (CMR) for Academic Session " + literalAcademicYear.Text + " has been given feedback.<br/><br/>Visit the link below to view the CMR right away, or you may login manually via the website.<br/><br/>Link:<br/><a href='http://comp1640.ddns.net/Course/ViewCMR.aspx?reportId=" + report.reportId + "'>View Report</a><br/><br/><br/>Disclaimer: This is an auto-generated email, hence no signature is required. It will also not reply to any queries.";
+                                mail.IsBodyHtml = true;
+
+                                using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
+                                {
+                                    smtp.Credentials = new NetworkCredential("comp1640.noreply@gmail.com", "Ilikeapple");
+                                    smtp.EnableSsl = true;
+                                    smtp.Send(mail);
+                                }
+                            }
+                        }
                     }
                     catch (Exception ex)
                     {
                         literalWarning.Text = ex.Message;
                     }
+
+                    conn.Close();
+                    literalActionSuccess.Text = "Feedback successfully submitted. Page will refresh in 3 seconds.";
+                    Response.AddHeader("REFRESH", "3;");
                 }
             }
         }

@@ -1,5 +1,13 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/EWSD.Master" AutoEventWireup="true" CodeBehind="FeedbackCMR.aspx.cs" Inherits="EWSD.Management.FeedbackCMR" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <style type="text/css">
+        .tableStyle{
+            text-align:center;
+            margin-left:auto;
+            margin-right:auto;
+            font-size:18px;
+        }
+    </style>
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="/css/Site.css" />
 </asp:Content>
@@ -49,125 +57,125 @@
                     <td><asp:Literal ID="literalAcademicYear" runat="server"></asp:Literal></td>
                 </tr>
                 <tr>
-                    <td>Course Title: </td>
-                    <td><asp:Literal ID="literalCourseTitle" runat="server"></asp:Literal></td>
+                    <td>Coursework Title: </td>
+                    <td><asp:Literal ID="literalCourseworkTitle" runat="server"></asp:Literal></td>
                 </tr>
                 <tr>
                     <td>Student Count: </td>
                     <td><asp:Literal ID="literalStudentCount" runat="server"></asp:Literal></td>
                 </tr>
             </table>
-            <h3 style="text-align:center;">Subject List</h3>
+            <h3 style="text-align:center;">Assessment List</h3>
             <table style="margin-left:auto;margin-right:auto;font-size:18px;">
                 <tr>
                     <td style="color:blue;">
-                        <asp:Literal ID="literalSubjectList" runat="server"></asp:Literal>
+                        <asp:Literal ID="literalAssessmentList" runat="server"></asp:Literal>
                     </td>
                 </tr>
             </table>
             <br />
             <h3 style="text-align:center;">Statistical Data</h3>
-            <table border="1" style="text-align:center;margin-left:auto;margin-right:auto;font-size:18px;">
-                <tr>
-                    <td>&nbsp;</td>
-                    <td>Mean</td>
-                    <td>Median</td>
-                    <td>Standard Deviation</td>
-                </tr>
-                <tr>
-                    <td><asp:TextBox ID="fieldCw1" runat="server" style="text-align:center;" ReadOnly="true"></asp:TextBox></td>
-                    <td><asp:TextBox ID="fieldCw1Mean" runat="server" style="text-align:center;" ReadOnly="true"></asp:TextBox></td>
-                    <td><asp:TextBox ID="fieldCw1Median" runat="server" style="text-align:center;" ReadOnly="true"></asp:TextBox></td>
-                    <td><asp:TextBox ID="fieldCw1StdDev" runat="server" style="text-align:center;" ReadOnly="true"></asp:TextBox></td>
-                </tr>
-                <tr>
-                    <td><asp:TextBox ID="fieldCw2" runat="server" style="text-align:center;" ReadOnly="true"></asp:TextBox></td>
-                    <td><asp:TextBox ID="fieldCw2Mean" runat="server" style="text-align:center;" ReadOnly="true"></asp:TextBox></td>
-                    <td><asp:TextBox ID="fieldCw2Median" runat="server" style="text-align:center;" ReadOnly="true"></asp:TextBox></td>
-                    <td><asp:TextBox ID="fieldCw2StdDev" runat="server" style="text-align:center;" ReadOnly="true"></asp:TextBox></td>
-                </tr>
-                <tr>
-                    <td><asp:TextBox ID="fieldCw3" runat="server" style="text-align:center;" ReadOnly="true"></asp:TextBox></td>
-                    <td><asp:TextBox ID="fieldCw3Mean" runat="server" style="text-align:center;" ReadOnly="true"></asp:TextBox></td>
-                    <td><asp:TextBox ID="fieldCw3Median" runat="server" style="text-align:center;" ReadOnly="true"></asp:TextBox></td>
-                    <td><asp:TextBox ID="fieldCw3StdDev" runat="server" style="text-align:center;" ReadOnly="true"></asp:TextBox></td>
-                </tr>
-                <tr>
-                    <td><strong>Overall</strong></td>
-                    <td><asp:Label ID="overallMean" runat="server" Text=""></asp:Label></td>
-                    <td><asp:Label ID="overallMedian" runat="server" Text=""></asp:Label></td>
-                    <td><asp:Label ID="overallStdDev" runat="server" Text=""></asp:Label></td>
-                </tr>
-            </table>
+            <asp:Table ID="tableStatData" runat="server" BorderStyle="Solid" GridLines="Both" CssClass="tableStyle">
+                <asp:TableRow runat="server" ID="rowHeader">
+                    <asp:TableCell>&nbsp;</asp:TableCell>
+                    <asp:TableCell>Mean</asp:TableCell>
+                    <asp:TableCell>Median</asp:TableCell>
+                    <asp:TableCell>Standard Deviation</asp:TableCell>
+                </asp:TableRow>
+                <asp:TableRow runat="server" ID="rowStatCw1" Visible="false">
+                    <asp:TableCell>Coursework 1</asp:TableCell>
+                    <asp:TableCell><asp:TextBox ID="fieldCw1Mean" runat="server" style="text-align:center;" ReadOnly="true"></asp:TextBox></asp:TableCell>
+                    <asp:TableCell><asp:TextBox ID="fieldCw1Median" style="text-align:center;" runat="server" ReadOnly="true"></asp:TextBox></asp:TableCell>
+                    <asp:TableCell><asp:TextBox ID="fieldCw1StdDev" style="text-align:center;" runat="server" ReadOnly="true"></asp:TextBox></asp:TableCell>
+                </asp:TableRow>
+                <asp:TableRow runat="server" ID="rowStatCw2" Visible="false">
+                    <asp:TableCell>Coursework 2</asp:TableCell>
+                    <asp:TableCell><asp:TextBox ID="fieldCw2Mean" style="text-align:center;" runat="server" ReadOnly="true"></asp:TextBox></asp:TableCell>
+                    <asp:TableCell><asp:TextBox ID="fieldCw2Median" style="text-align:center;" runat="server" ReadOnly="true"></asp:TextBox></asp:TableCell>
+                    <asp:TableCell><asp:TextBox ID="fieldCw2StdDev" style="text-align:center;" runat="server" ReadOnly="true"></asp:TextBox></asp:TableCell>
+                </asp:TableRow>
+                <asp:TableRow runat="server" ID="rowStatExam" Visible="false">
+                    <asp:TableCell>Exam</asp:TableCell>
+                    <asp:TableCell><asp:TextBox ID="fieldExamMean" style="text-align:center;" runat="server" ReadOnly="true"></asp:TextBox></asp:TableCell>
+                    <asp:TableCell><asp:TextBox ID="fieldExamMedian" style="text-align:center;" runat="server" ReadOnly="true"></asp:TextBox></asp:TableCell>
+                    <asp:TableCell><asp:TextBox ID="fieldExamStdDev" style="text-align:center;" runat="server" ReadOnly="true"></asp:TextBox></asp:TableCell>
+                </asp:TableRow>
+                <asp:TableRow runat="server" ID="rowOverallScore">
+                    <asp:TableCell><strong>Overall</strong></asp:TableCell>
+                    <asp:TableCell><asp:Label ID="overallMean" runat="server" Text=""></asp:Label></asp:TableCell>
+                    <asp:TableCell><asp:Label ID="overallMedian" runat="server" Text=""></asp:Label></asp:TableCell>
+                    <asp:TableCell><asp:Label ID="overallStdDev" runat="server" Text=""></asp:Label></asp:TableCell>
+                </asp:TableRow>
+            </asp:Table>
             <br />
             <h3 style="text-align:center;">Grade Distribution Data</h3>
-            <table border="1" style="text-align:center;margin-left:auto;margin-right:auto;font-size:18px;">
-                <tr>
-                    <td>&nbsp;</td>
-                    <td>0 - 9</td>
-                    <td>10- 19</td>
-                    <td>20 - 29</td>
-                    <td>30 - 39</td>
-                    <td>40 - 49</td>
-                    <td>50 - 59</td>
-                    <td>60 - 69</td>
-                    <td>70 - 79</td>
-                    <td>80 - 89</td>
-                    <td>90+</td>
-                </tr>
-                <tr>
-                    <td><asp:TextBox ID="comboGddCw1" runat="server" style="text-align:center;" ReadOnly="true" Columns="10"></asp:TextBox></td>
-                    <td><asp:TextBox ID="fieldGddCw1Group1" runat="server" style="text-align:center;" ReadOnly="true" Columns="5"></asp:TextBox></td>
-                    <td><asp:TextBox ID="fieldGddCw1Group2" runat="server" style="text-align:center;" ReadOnly="true" Columns="5"></asp:TextBox></td>
-                    <td><asp:TextBox ID="fieldGddCw1Group3" runat="server" style="text-align:center;" ReadOnly="true" Columns="5"></asp:TextBox></td>
-                    <td><asp:TextBox ID="fieldGddCw1Group4" runat="server" style="text-align:center;" ReadOnly="true" Columns="5"></asp:TextBox></td>
-                    <td><asp:TextBox ID="fieldGddCw1Group5" runat="server" style="text-align:center;" ReadOnly="true" Columns="5"></asp:TextBox></td>
-                    <td><asp:TextBox ID="fieldGddCw1Group6" runat="server" style="text-align:center;" ReadOnly="true" Columns="5"></asp:TextBox></td>
-                    <td><asp:TextBox ID="fieldGddCw1Group7" runat="server" style="text-align:center;" ReadOnly="true" Columns="5"></asp:TextBox></td>
-                    <td><asp:TextBox ID="fieldGddCw1Group8" runat="server" style="text-align:center;" ReadOnly="true" Columns="5"></asp:TextBox></td>
-                    <td><asp:TextBox ID="fieldGddCw1Group9" runat="server" style="text-align:center;" ReadOnly="true" Columns="5"></asp:TextBox></td>
-                    <td><asp:TextBox ID="fieldGddCw1Group10" runat="server" style="text-align:center;" ReadOnly="true" Columns="5"></asp:TextBox></td>
-                </tr>
-                <tr>
-                    <td><asp:TextBox ID="comboGddCw2" runat="server" style="text-align:center;" ReadOnly="true" Columns="10"></asp:TextBox></td>
-                    <td><asp:TextBox ID="fieldGddCw2Group1" runat="server" style="text-align:center;" ReadOnly="true" Columns="5"></asp:TextBox></td>
-                    <td><asp:TextBox ID="fieldGddCw2Group2" runat="server" style="text-align:center;" ReadOnly="true" Columns="5"></asp:TextBox></td>
-                    <td><asp:TextBox ID="fieldGddCw2Group3" runat="server" style="text-align:center;" ReadOnly="true" Columns="5"></asp:TextBox></td>
-                    <td><asp:TextBox ID="fieldGddCw2Group4" runat="server" style="text-align:center;" ReadOnly="true" Columns="5"></asp:TextBox></td>
-                    <td><asp:TextBox ID="fieldGddCw2Group5" runat="server" style="text-align:center;" ReadOnly="true" Columns="5"></asp:TextBox></td>
-                    <td><asp:TextBox ID="fieldGddCw2Group6" runat="server" style="text-align:center;" ReadOnly="true" Columns="5"></asp:TextBox></td>
-                    <td><asp:TextBox ID="fieldGddCw2Group7" runat="server" style="text-align:center;" ReadOnly="true" Columns="5"></asp:TextBox></td>
-                    <td><asp:TextBox ID="fieldGddCw2Group8" runat="server" style="text-align:center;" ReadOnly="true" Columns="5"></asp:TextBox></td>
-                    <td><asp:TextBox ID="fieldGddCw2Group9" runat="server" style="text-align:center;" ReadOnly="true" Columns="5"></asp:TextBox></td>
-                    <td><asp:TextBox ID="fieldGddCw2Group10" runat="server" style="text-align:center;" ReadOnly="true" Columns="5"></asp:TextBox></td>
-                </tr>
-                <tr>
-                    <td><asp:TextBox ID="comboGddCw3" runat="server" style="text-align:center;" ReadOnly="true" Columns="10"></asp:TextBox></td>
-                    <td><asp:TextBox ID="fieldGddCw3Group1" runat="server" style="text-align:center;" ReadOnly="true" Columns="5"></asp:TextBox></td>
-                    <td><asp:TextBox ID="fieldGddCw3Group2" runat="server" style="text-align:center;" ReadOnly="true" Columns="5"></asp:TextBox></td>
-                    <td><asp:TextBox ID="fieldGddCw3Group3" runat="server" style="text-align:center;" ReadOnly="true" Columns="5"></asp:TextBox></td>
-                    <td><asp:TextBox ID="fieldGddCw3Group4" runat="server" style="text-align:center;" ReadOnly="true" Columns="5"></asp:TextBox></td>
-                    <td><asp:TextBox ID="fieldGddCw3Group5" runat="server" style="text-align:center;" ReadOnly="true" Columns="5"></asp:TextBox></td>
-                    <td><asp:TextBox ID="fieldGddCw3Group6" runat="server" style="text-align:center;" ReadOnly="true" Columns="5"></asp:TextBox></td>
-                    <td><asp:TextBox ID="fieldGddCw3Group7" runat="server" style="text-align:center;" ReadOnly="true" Columns="5"></asp:TextBox></td>
-                    <td><asp:TextBox ID="fieldGddCw3Group8" runat="server" style="text-align:center;" ReadOnly="true" Columns="5"></asp:TextBox></td>
-                    <td><asp:TextBox ID="fieldGddCw3Group9" runat="server" style="text-align:center;" ReadOnly="true" Columns="5"></asp:TextBox></td>
-                    <td><asp:TextBox ID="fieldGddCw3Group10" runat="server" style="text-align:center;" ReadOnly="true" Columns="5"></asp:TextBox></td>
-                </tr>
-                <tr>
-                    <td><strong>Overall</strong></td>
-                    <td><asp:Label ID="overallGroup1" runat="server" Text=""></asp:Label></td>
-                    <td><asp:Label ID="overallGroup2" runat="server" Text=""></asp:Label></td>
-                    <td><asp:Label ID="overallGroup3" runat="server" Text=""></asp:Label></td>
-                    <td><asp:Label ID="overallGroup4" runat="server" Text=""></asp:Label></td>
-                    <td><asp:Label ID="overallGroup5" runat="server" Text=""></asp:Label></td>
-                    <td><asp:Label ID="overallGroup6" runat="server" Text=""></asp:Label></td>
-                    <td><asp:Label ID="overallGroup7" runat="server" Text=""></asp:Label></td>
-                    <td><asp:Label ID="overallGroup8" runat="server" Text=""></asp:Label></td>
-                    <td><asp:Label ID="overallGroup9" runat="server" Text=""></asp:Label></td>
-                    <td><asp:Label ID="overallGroup10" runat="server" Text=""></asp:Label></td>
-                </tr>
-            </table>
+            <asp:Table ID="tableGradeDistData" runat="server" BorderStyle="Solid" GridLines="Both" CssClass="tableStyle">
+                <asp:TableRow runat="server" ID="rowGddHeader">
+                    <asp:TableCell>&nbsp;</asp:TableCell>
+                    <asp:TableCell>0 - 9</asp:TableCell>
+                    <asp:TableCell>10 - 19</asp:TableCell>
+                    <asp:TableCell>20 - 29</asp:TableCell>
+                    <asp:TableCell>30 - 39</asp:TableCell>
+                    <asp:TableCell>40 - 49</asp:TableCell>
+                    <asp:TableCell>50 - 59</asp:TableCell>
+                    <asp:TableCell>60 - 69</asp:TableCell>
+                    <asp:TableCell>70 - 79</asp:TableCell>
+                    <asp:TableCell>80 - 89</asp:TableCell>
+                    <asp:TableCell>90+</asp:TableCell>
+                </asp:TableRow>
+                <asp:TableRow runat="server" ID="rowGddCw1" Visible="false">
+                    <asp:TableCell>Coursework 1</asp:TableCell>
+                    <asp:TableCell><asp:TextBox ID="fieldGddCw1Group1" style="text-align:center;" runat="server" Columns="5" ReadOnly="true"></asp:TextBox></asp:TableCell>
+                    <asp:TableCell><asp:TextBox ID="fieldGddCw1Group2" style="text-align:center;" runat="server" Columns="5" ReadOnly="true"></asp:TextBox></asp:TableCell>
+                    <asp:TableCell><asp:TextBox ID="fieldGddCw1Group3" style="text-align:center;" runat="server" Columns="5" ReadOnly="true"></asp:TextBox></asp:TableCell>
+                    <asp:TableCell><asp:TextBox ID="fieldGddCw1Group4" style="text-align:center;" runat="server" Columns="5" ReadOnly="true"></asp:TextBox></asp:TableCell>
+                    <asp:TableCell><asp:TextBox ID="fieldGddCw1Group5" style="text-align:center;" runat="server" Columns="5" ReadOnly="true"></asp:TextBox></asp:TableCell>
+                    <asp:TableCell><asp:TextBox ID="fieldGddCw1Group6" style="text-align:center;" runat="server" Columns="5" ReadOnly="true"></asp:TextBox></asp:TableCell>
+                    <asp:TableCell><asp:TextBox ID="fieldGddCw1Group7" style="text-align:center;" runat="server" Columns="5" ReadOnly="true"></asp:TextBox></asp:TableCell>
+                    <asp:TableCell><asp:TextBox ID="fieldGddCw1Group8" style="text-align:center;" runat="server" Columns="5" ReadOnly="true"></asp:TextBox></asp:TableCell>
+                    <asp:TableCell><asp:TextBox ID="fieldGddCw1Group9" style="text-align:center;" runat="server" Columns="5" ReadOnly="true"></asp:TextBox></asp:TableCell>
+                    <asp:TableCell><asp:TextBox ID="fieldGddCw1Group10" style="text-align:center;" runat="server" Columns="5" ReadOnly="true"></asp:TextBox></asp:TableCell>
+                </asp:TableRow>
+                <asp:TableRow runat="server" ID="rowGddCw2" Visible="false">
+                    <asp:TableCell>Coursework 2</asp:TableCell>
+                    <asp:TableCell><asp:TextBox ID="fieldGddCw2Group1" style="text-align:center;" runat="server" Columns="5" ReadOnly="true"></asp:TextBox></asp:TableCell>
+                    <asp:TableCell><asp:TextBox ID="fieldGddCw2Group2" style="text-align:center;" runat="server" Columns="5" ReadOnly="true"></asp:TextBox></asp:TableCell>
+                    <asp:TableCell><asp:TextBox ID="fieldGddCw2Group3" style="text-align:center;" runat="server" Columns="5" ReadOnly="true"></asp:TextBox></asp:TableCell>
+                    <asp:TableCell><asp:TextBox ID="fieldGddCw2Group4" style="text-align:center;" runat="server" Columns="5" ReadOnly="true"></asp:TextBox></asp:TableCell>
+                    <asp:TableCell><asp:TextBox ID="fieldGddCw2Group5" style="text-align:center;" runat="server" Columns="5" ReadOnly="true"></asp:TextBox></asp:TableCell>
+                    <asp:TableCell><asp:TextBox ID="fieldGddCw2Group6" style="text-align:center;" runat="server" Columns="5" ReadOnly="true"></asp:TextBox></asp:TableCell>
+                    <asp:TableCell><asp:TextBox ID="fieldGddCw2Group7" style="text-align:center;" runat="server" Columns="5" ReadOnly="true"></asp:TextBox></asp:TableCell>
+                    <asp:TableCell><asp:TextBox ID="fieldGddCw2Group8" style="text-align:center;" runat="server" Columns="5" ReadOnly="true"></asp:TextBox></asp:TableCell>
+                    <asp:TableCell><asp:TextBox ID="fieldGddCw2Group9" style="text-align:center;" runat="server" Columns="5" ReadOnly="true"></asp:TextBox></asp:TableCell>
+                    <asp:TableCell><asp:TextBox ID="fieldGddCw2Group10" style="text-align:center;" runat="server" Columns="5" ReadOnly="true"></asp:TextBox></asp:TableCell>
+                </asp:TableRow>
+                <asp:TableRow runat="server" ID="rowGddExam" Visible="false">
+                    <asp:TableCell>Exam</asp:TableCell>
+                    <asp:TableCell><asp:TextBox ID="fieldGddExamGroup1" style="text-align:center;" runat="server" Columns="5" ReadOnly="true"></asp:TextBox></asp:TableCell>
+                    <asp:TableCell><asp:TextBox ID="fieldGddExamGroup2" style="text-align:center;" runat="server" Columns="5" ReadOnly="true"></asp:TextBox></asp:TableCell>
+                    <asp:TableCell><asp:TextBox ID="fieldGddExamGroup3" style="text-align:center;" runat="server" Columns="5" ReadOnly="true"></asp:TextBox></asp:TableCell>
+                    <asp:TableCell><asp:TextBox ID="fieldGddExamGroup4" style="text-align:center;" runat="server" Columns="5" ReadOnly="true"></asp:TextBox></asp:TableCell>
+                    <asp:TableCell><asp:TextBox ID="fieldGddExamGroup5" style="text-align:center;" runat="server" Columns="5" ReadOnly="true"></asp:TextBox></asp:TableCell>
+                    <asp:TableCell><asp:TextBox ID="fieldGddExamGroup6" style="text-align:center;" runat="server" Columns="5" ReadOnly="true"></asp:TextBox></asp:TableCell>
+                    <asp:TableCell><asp:TextBox ID="fieldGddExamGroup7" style="text-align:center;" runat="server" Columns="5" ReadOnly="true"></asp:TextBox></asp:TableCell>
+                    <asp:TableCell><asp:TextBox ID="fieldGddExamGroup8" style="text-align:center;" runat="server" Columns="5" ReadOnly="true"></asp:TextBox></asp:TableCell>
+                    <asp:TableCell><asp:TextBox ID="fieldGddExamGroup9" style="text-align:center;" runat="server" Columns="5" ReadOnly="true"></asp:TextBox></asp:TableCell>
+                    <asp:TableCell><asp:TextBox ID="fieldGddExamGroup10" style="text-align:center;" runat="server" Columns="5" ReadOnly="true"></asp:TextBox></asp:TableCell>
+                </asp:TableRow>
+                <asp:TableRow runat="server" ID="rowGddOverall">
+                    <asp:TableCell><strong>Overall</strong></asp:TableCell>
+                    <asp:TableCell><asp:Label ID="overallGroup1" runat="server" Text=""></asp:Label></asp:TableCell>
+                    <asp:TableCell><asp:Label ID="overallGroup2" runat="server" Text=""></asp:Label></asp:TableCell>
+                    <asp:TableCell><asp:Label ID="overallGroup3" runat="server" Text=""></asp:Label></asp:TableCell>
+                    <asp:TableCell><asp:Label ID="overallGroup4" runat="server" Text=""></asp:Label></asp:TableCell>
+                    <asp:TableCell><asp:Label ID="overallGroup5" runat="server" Text=""></asp:Label></asp:TableCell>
+                    <asp:TableCell><asp:Label ID="overallGroup6" runat="server" Text=""></asp:Label></asp:TableCell>
+                    <asp:TableCell><asp:Label ID="overallGroup7" runat="server" Text=""></asp:Label></asp:TableCell>
+                    <asp:TableCell><asp:Label ID="overallGroup8" runat="server" Text=""></asp:Label></asp:TableCell>
+                    <asp:TableCell><asp:Label ID="overallGroup9" runat="server" Text=""></asp:Label></asp:TableCell>
+                    <asp:TableCell><asp:Label ID="overallGroup10" runat="server" Text=""></asp:Label></asp:TableCell>
+                </asp:TableRow>
+            </asp:Table>
             <br />
             <h3 style="text-align:center;">General Comments</h3>
             <table border="1" style="text-align:center;margin-left:auto;margin-right:auto;font-size:18px;">

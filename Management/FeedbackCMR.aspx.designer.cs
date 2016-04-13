@@ -130,13 +130,13 @@ namespace EWSD.Management {
         protected global::System.Web.UI.WebControls.Literal literalAcademicYear;
         
         /// <summary>
-        /// literalCourseTitle control.
+        /// literalCourseworkTitle control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal literalCourseTitle;
+        protected global::System.Web.UI.WebControls.Literal literalCourseworkTitle;
         
         /// <summary>
         /// literalStudentCount control.
@@ -148,22 +148,40 @@ namespace EWSD.Management {
         protected global::System.Web.UI.WebControls.Literal literalStudentCount;
         
         /// <summary>
-        /// literalSubjectList control.
+        /// literalAssessmentList control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal literalSubjectList;
+        protected global::System.Web.UI.WebControls.Literal literalAssessmentList;
         
         /// <summary>
-        /// fieldCw1 control.
+        /// tableStatData control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox fieldCw1;
+        protected global::System.Web.UI.WebControls.Table tableStatData;
+        
+        /// <summary>
+        /// rowHeader control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableRow rowHeader;
+        
+        /// <summary>
+        /// rowStatCw1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableRow rowStatCw1;
         
         /// <summary>
         /// fieldCw1Mean control.
@@ -193,13 +211,13 @@ namespace EWSD.Management {
         protected global::System.Web.UI.WebControls.TextBox fieldCw1StdDev;
         
         /// <summary>
-        /// fieldCw2 control.
+        /// rowStatCw2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox fieldCw2;
+        protected global::System.Web.UI.WebControls.TableRow rowStatCw2;
         
         /// <summary>
         /// fieldCw2Mean control.
@@ -229,40 +247,49 @@ namespace EWSD.Management {
         protected global::System.Web.UI.WebControls.TextBox fieldCw2StdDev;
         
         /// <summary>
-        /// fieldCw3 control.
+        /// rowStatExam control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox fieldCw3;
+        protected global::System.Web.UI.WebControls.TableRow rowStatExam;
         
         /// <summary>
-        /// fieldCw3Mean control.
+        /// fieldExamMean control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox fieldCw3Mean;
+        protected global::System.Web.UI.WebControls.TextBox fieldExamMean;
         
         /// <summary>
-        /// fieldCw3Median control.
+        /// fieldExamMedian control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox fieldCw3Median;
+        protected global::System.Web.UI.WebControls.TextBox fieldExamMedian;
         
         /// <summary>
-        /// fieldCw3StdDev control.
+        /// fieldExamStdDev control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox fieldCw3StdDev;
+        protected global::System.Web.UI.WebControls.TextBox fieldExamStdDev;
+        
+        /// <summary>
+        /// rowOverallScore control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableRow rowOverallScore;
         
         /// <summary>
         /// overallMean control.
@@ -292,13 +319,31 @@ namespace EWSD.Management {
         protected global::System.Web.UI.WebControls.Label overallStdDev;
         
         /// <summary>
-        /// comboGddCw1 control.
+        /// tableGradeDistData control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox comboGddCw1;
+        protected global::System.Web.UI.WebControls.Table tableGradeDistData;
+        
+        /// <summary>
+        /// rowGddHeader control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableRow rowGddHeader;
+        
+        /// <summary>
+        /// rowGddCw1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableRow rowGddCw1;
         
         /// <summary>
         /// fieldGddCw1Group1 control.
@@ -391,13 +436,13 @@ namespace EWSD.Management {
         protected global::System.Web.UI.WebControls.TextBox fieldGddCw1Group10;
         
         /// <summary>
-        /// comboGddCw2 control.
+        /// rowGddCw2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox comboGddCw2;
+        protected global::System.Web.UI.WebControls.TableRow rowGddCw2;
         
         /// <summary>
         /// fieldGddCw2Group1 control.
@@ -490,103 +535,112 @@ namespace EWSD.Management {
         protected global::System.Web.UI.WebControls.TextBox fieldGddCw2Group10;
         
         /// <summary>
-        /// comboGddCw3 control.
+        /// rowGddExam control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox comboGddCw3;
+        protected global::System.Web.UI.WebControls.TableRow rowGddExam;
         
         /// <summary>
-        /// fieldGddCw3Group1 control.
+        /// fieldGddExamGroup1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox fieldGddCw3Group1;
+        protected global::System.Web.UI.WebControls.TextBox fieldGddExamGroup1;
         
         /// <summary>
-        /// fieldGddCw3Group2 control.
+        /// fieldGddExamGroup2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox fieldGddCw3Group2;
+        protected global::System.Web.UI.WebControls.TextBox fieldGddExamGroup2;
         
         /// <summary>
-        /// fieldGddCw3Group3 control.
+        /// fieldGddExamGroup3 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox fieldGddCw3Group3;
+        protected global::System.Web.UI.WebControls.TextBox fieldGddExamGroup3;
         
         /// <summary>
-        /// fieldGddCw3Group4 control.
+        /// fieldGddExamGroup4 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox fieldGddCw3Group4;
+        protected global::System.Web.UI.WebControls.TextBox fieldGddExamGroup4;
         
         /// <summary>
-        /// fieldGddCw3Group5 control.
+        /// fieldGddExamGroup5 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox fieldGddCw3Group5;
+        protected global::System.Web.UI.WebControls.TextBox fieldGddExamGroup5;
         
         /// <summary>
-        /// fieldGddCw3Group6 control.
+        /// fieldGddExamGroup6 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox fieldGddCw3Group6;
+        protected global::System.Web.UI.WebControls.TextBox fieldGddExamGroup6;
         
         /// <summary>
-        /// fieldGddCw3Group7 control.
+        /// fieldGddExamGroup7 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox fieldGddCw3Group7;
+        protected global::System.Web.UI.WebControls.TextBox fieldGddExamGroup7;
         
         /// <summary>
-        /// fieldGddCw3Group8 control.
+        /// fieldGddExamGroup8 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox fieldGddCw3Group8;
+        protected global::System.Web.UI.WebControls.TextBox fieldGddExamGroup8;
         
         /// <summary>
-        /// fieldGddCw3Group9 control.
+        /// fieldGddExamGroup9 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox fieldGddCw3Group9;
+        protected global::System.Web.UI.WebControls.TextBox fieldGddExamGroup9;
         
         /// <summary>
-        /// fieldGddCw3Group10 control.
+        /// fieldGddExamGroup10 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox fieldGddCw3Group10;
+        protected global::System.Web.UI.WebControls.TextBox fieldGddExamGroup10;
+        
+        /// <summary>
+        /// rowGddOverall control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableRow rowGddOverall;
         
         /// <summary>
         /// overallGroup1 control.
