@@ -279,6 +279,13 @@ namespace EWSD.Management
                         }
                     }
                 }
+
+                if (HttpContext.Current.User.IsInRole("PVC"))
+                {
+                    fieldDLTComments.Enabled = false;
+                    bSubmitDLTComment.Enabled = false;
+                    bSubmitDLTComment.Text = "Not DLT";
+                }
             }
         }
 
@@ -577,6 +584,13 @@ namespace EWSD.Management
                         fieldDLTComments.Enabled = false;
                         bSubmitDLTComment.Enabled = false;
                         bSubmitDLTComment.Text = "Deadline Passed";
+                    }
+
+                    if (HttpContext.Current.User.IsInRole("PVC"))
+                    {
+                        fieldDLTComments.Enabled = false;
+                        bSubmitDLTComment.Enabled = false;
+                        bSubmitDLTComment.Text = "Not DLT";
                     }
 
                     panelSelectReportId.Visible = false;
