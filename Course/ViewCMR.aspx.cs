@@ -141,10 +141,9 @@ namespace EWSD.Course
 
                             literalAcademicYear.Text = ((Statistics)report.statistics[0]).academicYear.ToString();
 
-                            cmd.CommandText = "SELECT course_title FROM course WHERE course_code IN (" +
-                                "SELECT parent_course FROM coursework WHERE coursework_code IN (" +
+                            cmd.CommandText = "SELECT coursework_title FROM coursework WHERE coursework_code IN (" +
                                     "SELECT coursework_code FROM statistic WHERE stat_id IN (" +
-                                        "SELECT stat_id FROM reports WHERE report_id = @reportId)))";
+                                        "SELECT stat_id FROM reports WHERE report_id = @reportId))";
                             cmd.Prepare();
 
                             cmd.Parameters.AddWithValue("@reportId", reportId);
@@ -153,7 +152,7 @@ namespace EWSD.Course
                             {
                                 if (reader.Read())
                                 {
-                                    literalCourseTitle.Text = reader.GetString(0);
+                                    literalCourseworkTitle.Text = reader.GetString(0);
                                 }
                             }
 
@@ -417,10 +416,9 @@ namespace EWSD.Course
 
                     literalAcademicYear.Text = ((Statistics)report.statistics[0]).academicYear.ToString();
 
-                    cmd.CommandText = "SELECT course_title FROM course WHERE course_code IN (" +
-                        "SELECT parent_course FROM coursework WHERE coursework_code IN (" +
-                            "SELECT coursework_code FROM statistic WHERE stat_id IN (" +
-                                "SELECT stat_id FROM reports WHERE report_id = @reportId)))";
+                    cmd.CommandText = "SELECT coursework_title FROM coursework WHERE coursework_code IN (" +
+                        "SELECT coursework_code FROM statistic WHERE stat_id IN (" +
+                            "SELECT stat_id FROM reports WHERE report_id = @reportId))";
                     cmd.Prepare();
 
                     cmd.Parameters.AddWithValue("@reportId", comboReportId.SelectedValue);
@@ -429,7 +427,7 @@ namespace EWSD.Course
                     {
                         if (reader.Read())
                         {
-                            literalCourseTitle.Text = reader.GetString(0);
+                            literalCourseworkTitle.Text = reader.GetString(0);
                         }
                     }
 
@@ -691,28 +689,46 @@ namespace EWSD.Course
 
                     try
                     {
-                        using (MailMessage mail = new MailMessage())
+                        if (pvcEmail != "")
                         {
-                            mail.From = new MailAddress("comp1640.noreply@gmail.com");
-                            if(pvcEmail != "")
+                            using (MailMessage mail = new MailMessage())
                             {
+                                mail.From = new MailAddress("comp1640.noreply@gmail.com");
                                 mail.To.Add(pvcEmail);
-                            }
-                            if(dltEmail != "")
-                            {
-                                mail.To.Add(dltEmail);
-                            }
-                            mail.Subject = "Course Monitoring Report for " + literalCourseTitle.Text;
-                            mail.Body = "The Course Monitoring Report (CMR) for Academic Session " + literalAcademicYear.Text + " is now ready for feedback comments.<br/><br/>Visit the link below to review the CMR right away, or you may login manually via the website.<br/><br/>Link:<br/><a href='http://comp1640.ddns.net/Management/FeedbackCMR.aspx?reportId=" + report.reportId + "'>View Report</a><br/><br/><br/>Disclaimer: This is an auto-generated email, hence no signature is required. It will also not reply to any queries.";
-                            mail.IsBodyHtml = true;
 
-                            using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
-                            {
-                                smtp.Credentials = new NetworkCredential("comp1640.noreply@gmail.com", "Ilikeapple");
-                                smtp.EnableSsl = true;
-                                smtp.Send(mail);
+                                mail.Subject = "Course Monitoring Report for " + literalCourseworkTitle.Text;
+                                mail.Body = "The Course Monitoring Report (CMR) for Academic Session " + literalAcademicYear.Text + " is now ready for feedback comments.<br/><br/>Visit the link below to review the CMR right away, or you may login manually via the website.<br/><br/>Link:<br/><a href='http://comp1640.ddns.net/Management/FeedbackCMR.aspx?reportId=" + report.reportId + "'>View Report</a><br/><br/><br/>Disclaimer: This is an auto-generated email, hence no signature is required. It will also not reply to any queries.";
+                                mail.IsBodyHtml = true;
+
+                                using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
+                                {
+                                    smtp.Credentials = new NetworkCredential("comp1640.noreply@gmail.com", "Ilikeapple");
+                                    smtp.EnableSsl = true;
+                                    smtp.Send(mail);
+                                }
                             }
                         }
+
+                        if (dltEmail != "")
+                        {
+                            using (MailMessage mail = new MailMessage())
+                            {
+                                mail.From = new MailAddress("comp1640.noreply@gmail.com");
+                                mail.To.Add(dltEmail);
+
+                                mail.Subject = "Course Monitoring Report for " + literalCourseworkTitle.Text;
+                                mail.Body = "The Course Monitoring Report (CMR) for Academic Session " + literalAcademicYear.Text + " is now ready for feedback comments.<br/><br/>Visit the link below to review the CMR right away, or you may login manually via the website.<br/><br/>Link:<br/><a href='http://comp1640.ddns.net/Management/FeedbackCMR.aspx?reportId=" + report.reportId + "'>View Report</a><br/><br/><br/>Disclaimer: This is an auto-generated email, hence no signature is required. It will also not reply to any queries.";
+                                mail.IsBodyHtml = true;
+
+                                using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
+                                {
+                                    smtp.Credentials = new NetworkCredential("comp1640.noreply@gmail.com", "Ilikeapple");
+                                    smtp.EnableSsl = true;
+                                    smtp.Send(mail);
+                                }
+                            }
+                        }
+                        
                     }
                     catch (Exception ex)
                     {

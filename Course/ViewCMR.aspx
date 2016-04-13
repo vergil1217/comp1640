@@ -48,8 +48,8 @@
                     <td><asp:Literal ID="literalAcademicYear" runat="server"></asp:Literal></td>
                 </tr>
                 <tr>
-                    <td>Course Title: </td>
-                    <td><asp:Literal ID="literalCourseTitle" runat="server"></asp:Literal></td>
+                    <td>Coursework Title: </td>
+                    <td><asp:Literal ID="literalCourseworkTitle" runat="server"></asp:Literal></td>
                 </tr>
                 <tr>
                     <td>Student Count: </td>
