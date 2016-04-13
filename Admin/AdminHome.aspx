@@ -51,5 +51,11 @@
                 <td style="padding:10px;"><a href="RemoveCourseRole.aspx?role=cm">Remove Course Moderator</a></td>
             </tr>
         </table>
+        <br />
+        <table border="1">
+            <tr>
+                <td style="padding:10px;"><a href="ManageAssessment.aspx">Manage Assessment</a></td>
+            </tr>
+        </table>
     </div>
 </asp:Content>
