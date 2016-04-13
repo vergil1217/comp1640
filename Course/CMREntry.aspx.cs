@@ -49,15 +49,15 @@ namespace EWSD.Course
 
                         using(SqlDataReader reader = cmd.ExecuteReader())
                         {
-                            comboCourses.Items.Add("Select a course");
+                            comboCourse.Items.Add("Select a course");
                             while (reader.Read())
                             {
                                 ListItem item = new ListItem(reader.GetString(1), reader.GetString(0));
-                                comboCourses.Items.Add(item);
+                                comboCourse.Items.Add(item);
                             }
                         }
 
-                        if(comboCourses.Items.Count == 1)
+                        if(comboCourse.Items.Count == 1)
                         {
                             panelCMRHead.Visible = false;
                             panelCMRBody.Visible = false;
@@ -72,23 +72,46 @@ namespace EWSD.Course
             }
         }
 
-        protected void comboCourses_SelectedIndexChanged(object sender, EventArgs e)
+        protected void bSelectCourse_Click(object sender, EventArgs e)
         {
-            string courseCode = ((DropDownList)sender).SelectedValue.ToString();
+            using (SqlConnection conn = new SqlConnection(WebConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand())
+                {
+                    cmd.Connection = conn;
+                    cmd.CommandText = "SELECT coursework_code, coursework_title FROM coursework WHERE parent_course = @course";
+                    cmd.Prepare();
+
+                    cmd.Parameters.AddWithValue("@course", comboCourse.SelectedValue);
+
+                    conn.Open();
+                    using(SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            ListItem item = new ListItem(reader.GetString(1), reader.GetString(0));
+                            comboCoursework.Items.Add(item);
+                        }
+                    }
+                    
+
+                    panelSelectCourse.Visible = false;
+                    panelCMRHead.Visible = true;
+                }
+            }
+        }
+
+        protected void comboCoursework_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string courseworkCode = ((DropDownList)sender).SelectedValue.ToString();
             if (((DropDownList)sender).SelectedIndex == 0)
             {
                 panelCMRBody.Visible = false;
-                literalCourseCode.Text = "";
+                literalCourseworkCode.Text = "";
                 return;
             }
 
-            literalSubjectList.Text = "";
-            comboCw1.Items.Clear();
-            comboCw2.Items.Clear();
-            comboCw3.Items.Clear();
-            comboGddCw1.Items.Clear();
-            comboGddCw2.Items.Clear();
-            comboGddCw3.Items.Clear();
+            literalAssessmentList.Text = "";
 
             fieldCw1Mean.Text = "";
             fieldCw1Median.Text = "";
@@ -118,50 +141,61 @@ namespace EWSD.Course
             fieldGddCw2Group9.Text = "";
             fieldGddCw2Group10.Text = "";
 
-            fieldCw3Mean.Text = "";
-            fieldCw3Median.Text = "";
-            fieldCw3StdDev.Text = "";
-            fieldGddCw3Group1.Text = "";
-            fieldGddCw3Group2.Text = "";
-            fieldGddCw3Group3.Text = "";
-            fieldGddCw3Group4.Text = "";
-            fieldGddCw3Group5.Text = "";
-            fieldGddCw3Group6.Text = "";
-            fieldGddCw3Group7.Text = "";
-            fieldGddCw3Group8.Text = "";
-            fieldGddCw3Group9.Text = "";
-            fieldGddCw3Group10.Text = "";
+            fieldExamMean.Text = "";
+            fieldExamMedian.Text = "";
+            fieldExamStdDev.Text = "";
+            fieldGddExamGroup1.Text = "";
+            fieldGddExamGroup2.Text = "";
+            fieldGddExamGroup3.Text = "";
+            fieldGddExamGroup4.Text = "";
+            fieldGddExamGroup5.Text = "";
+            fieldGddExamGroup6.Text = "";
+            fieldGddExamGroup7.Text = "";
+            fieldGddExamGroup8.Text = "";
+            fieldGddExamGroup9.Text = "";
+            fieldGddExamGroup10.Text = "";
 
             if (!panelCMRBody.Visible)
             {
                 panelCMRBody.Visible = true;
             }
 
-            literalCourseCode.Text = courseCode;
+            literalCourseworkCode.Text = courseworkCode;
 
             using (SqlConnection conn = new SqlConnection(WebConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
             {
                 using (SqlCommand cmd = new SqlCommand())
                 {
                     cmd.Connection = conn;
-                    cmd.CommandText = "SELECT coursework_code, coursework_title FROM coursework WHERE parent_course = @course";
+                    cmd.CommandText = "SELECT coursework_1, coursework_2, exam FROM coursework WHERE coursework_code = @cwCode";
                     cmd.Prepare();
 
-                    cmd.Parameters.AddWithValue("@course", courseCode);
+                    cmd.Parameters.AddWithValue("@cwCode", courseworkCode);
 
                     conn.Open();
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        while (reader.Read())
+                        if (reader.Read())
                         {
-                            literalSubjectList.Text += reader.GetString(0).ToUpper() + " - " + reader.GetString(1) + "<br/>";
-                            ListItem item = new ListItem(reader.GetString(0).ToUpper(), reader.GetString(0));
-                            comboCw1.Items.Add(item);
-                            comboCw2.Items.Add(item);
-                            comboCw3.Items.Add(item);
-                            comboGddCw1.Items.Add(item);
-                            comboGddCw2.Items.Add(item);
-                            comboGddCw3.Items.Add(item);
+                            if (reader.GetBoolean(0))
+                            {
+                                literalAssessmentList.Text += "Coursework 1<br/>";
+                                rowStatCw1.Visible = true;
+                                rowGddCw1.Visible = true;
+                            }
+
+                            if (reader.GetBoolean(1))
+                            {
+                                literalAssessmentList.Text += "Coursework 2<br/>";
+                                rowStatCw2.Visible = true;
+                                rowGddCw2.Visible = true;
+                            }
+
+                            if (reader.GetBoolean(2)){
+                                literalAssessmentList.Text += "Exam<br/>";
+                                rowStatExam.Visible = true;
+                                rowGddExam.Visible = true;
+                            }
                         }
                     }
                 }
@@ -202,20 +236,31 @@ namespace EWSD.Course
 
             using (SqlConnection conn = new SqlConnection(WebConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
             {
-                Statistics stat1 = new Statistics(0, int.Parse(fieldAcademicYear.Text), comboCw1.SelectedValue, double.Parse(fieldCw1Mean.Text), double.Parse(fieldCw1Median.Text), double.Parse(fieldCw1StdDev.Text), double.Parse(fieldGddCw1Group1.Text), double.Parse(fieldGddCw1Group2.Text), double.Parse(fieldGddCw1Group3.Text), double.Parse(fieldGddCw1Group4.Text), double.Parse(fieldGddCw1Group5.Text), double.Parse(fieldGddCw1Group6.Text), double.Parse(fieldGddCw1Group7.Text), double.Parse(fieldGddCw1Group8.Text), double.Parse(fieldGddCw1Group9.Text), double.Parse(fieldGddCw1Group10.Text));
-                Statistics stat2 = new Statistics(0, int.Parse(fieldAcademicYear.Text), comboCw2.SelectedValue, double.Parse(fieldCw2Mean.Text), double.Parse(fieldCw2Median.Text), double.Parse(fieldCw2StdDev.Text), double.Parse(fieldGddCw2Group1.Text), double.Parse(fieldGddCw2Group2.Text), double.Parse(fieldGddCw2Group3.Text), double.Parse(fieldGddCw2Group4.Text), double.Parse(fieldGddCw2Group5.Text), double.Parse(fieldGddCw2Group6.Text), double.Parse(fieldGddCw2Group7.Text), double.Parse(fieldGddCw2Group8.Text), double.Parse(fieldGddCw2Group9.Text), double.Parse(fieldGddCw2Group10.Text));
-                Statistics stat3 = new Statistics(0, int.Parse(fieldAcademicYear.Text), comboCw3.SelectedValue, double.Parse(fieldCw3Mean.Text), double.Parse(fieldCw3Median.Text), double.Parse(fieldCw3StdDev.Text), double.Parse(fieldGddCw3Group1.Text), double.Parse(fieldGddCw3Group2.Text), double.Parse(fieldGddCw3Group3.Text), double.Parse(fieldGddCw3Group4.Text), double.Parse(fieldGddCw3Group5.Text), double.Parse(fieldGddCw3Group6.Text), double.Parse(fieldGddCw3Group7.Text), double.Parse(fieldGddCw3Group8.Text), double.Parse(fieldGddCw3Group9.Text), double.Parse(fieldGddCw3Group10.Text));
-
                 ArrayList arrStats = new ArrayList();
-                arrStats.Add(stat1);
-                arrStats.Add(stat2);
-                arrStats.Add(stat3);
+
+                if (rowGddCw1.Visible && rowStatCw1.Visible)
+                {
+                    Statistics stat1 = new Statistics(0, int.Parse(fieldAcademicYear.Text), comboCoursework.SelectedValue, 1, double.Parse(fieldCw1Mean.Text), double.Parse(fieldCw1Median.Text), double.Parse(fieldCw1StdDev.Text), double.Parse(fieldGddCw1Group1.Text), double.Parse(fieldGddCw1Group2.Text), double.Parse(fieldGddCw1Group3.Text), double.Parse(fieldGddCw1Group4.Text), double.Parse(fieldGddCw1Group5.Text), double.Parse(fieldGddCw1Group6.Text), double.Parse(fieldGddCw1Group7.Text), double.Parse(fieldGddCw1Group8.Text), double.Parse(fieldGddCw1Group9.Text), double.Parse(fieldGddCw1Group10.Text));
+                    arrStats.Add(stat1);
+                }
+
+                if(rowGddCw2.Visible && rowStatCw2.Visible)
+                {
+                    Statistics stat2 = new Statistics(0, int.Parse(fieldAcademicYear.Text), comboCoursework.SelectedValue, 2, double.Parse(fieldCw2Mean.Text), double.Parse(fieldCw2Median.Text), double.Parse(fieldCw2StdDev.Text), double.Parse(fieldGddCw2Group1.Text), double.Parse(fieldGddCw2Group2.Text), double.Parse(fieldGddCw2Group3.Text), double.Parse(fieldGddCw2Group4.Text), double.Parse(fieldGddCw2Group5.Text), double.Parse(fieldGddCw2Group6.Text), double.Parse(fieldGddCw2Group7.Text), double.Parse(fieldGddCw2Group8.Text), double.Parse(fieldGddCw2Group9.Text), double.Parse(fieldGddCw2Group10.Text));
+                    arrStats.Add(stat2);
+                }
+
+                if(rowGddExam.Visible && rowStatExam.Visible)
+                {
+                    Statistics stat3 = new Statistics(0, int.Parse(fieldAcademicYear.Text), comboCoursework.SelectedValue, 3, double.Parse(fieldExamMean.Text), double.Parse(fieldExamMedian.Text), double.Parse(fieldExamStdDev.Text), double.Parse(fieldGddExamGroup1.Text), double.Parse(fieldGddExamGroup2.Text), double.Parse(fieldGddExamGroup3.Text), double.Parse(fieldGddExamGroup4.Text), double.Parse(fieldGddExamGroup5.Text), double.Parse(fieldGddExamGroup6.Text), double.Parse(fieldGddExamGroup7.Text), double.Parse(fieldGddExamGroup8.Text), double.Parse(fieldGddExamGroup9.Text), double.Parse(fieldGddExamGroup10.Text));
+                    arrStats.Add(stat3);
+                }
 
                 using (SqlCommand cmd = new SqlCommand())
                 {
                     cmd.Connection = conn;
-                    cmd.CommandText = "INSERT INTO statistic (academic_year, coursework_code, mean, median, standard_deviation, grade_dist_group_1, grade_dist_group_2, grade_dist_group_3, grade_dist_group_4, grade_dist_group_5, grade_dist_group_6, grade_dist_group_7, grade_dist_group_8, grade_dist_group_9, grade_dist_group_10) VALUES " +
-                        "(@academicYear, @cwCode, @mean, @median, @stdDev, @group1, @group2, @group3, @group4, @group5, @group6, @group7, @group8, @group9, @group10)";
+                    cmd.CommandText = "INSERT INTO statistic (academic_year, coursework_code, assessment_type, mean, median, standard_deviation, grade_dist_group_1, grade_dist_group_2, grade_dist_group_3, grade_dist_group_4, grade_dist_group_5, grade_dist_group_6, grade_dist_group_7, grade_dist_group_8, grade_dist_group_9, grade_dist_group_10) VALUES " +
+                        "(@academicYear, @cwCode, @assessmentType, @mean, @median, @stdDev, @group1, @group2, @group3, @group4, @group5, @group6, @group7, @group8, @group9, @group10)";
                     cmd.Prepare();
 
                     conn.Open();
@@ -225,6 +270,7 @@ namespace EWSD.Course
                         cmd.Parameters.Clear();
                         cmd.Parameters.AddWithValue("@academicYear", s.academicYear);
                         cmd.Parameters.AddWithValue("@cwCode", s.courseworkCode);
+                        cmd.Parameters.AddWithValue("@assessmentType", s.assessmentType);
                         cmd.Parameters.AddWithValue("@mean", s.mean);
                         cmd.Parameters.AddWithValue("@median", s.median);
                         cmd.Parameters.AddWithValue("@stdDev", s.standardDeviation);
@@ -263,12 +309,14 @@ namespace EWSD.Course
                     cmd.CommandText = "SELECT DISTINCT TOP 1 report_id FROM reports ORDER BY report_id DESC";
                     cmd.Prepare();
 
-                    int reportNo = 1;
+                    int reportNo = 0;
 
                     using(SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        reader.Read();
-                        reportNo = reader.GetInt32(0);
+                        if (reader.Read())
+                        {
+                            reportNo = reader.GetInt32(0);
+                        }
                     }
 
                     reportNo++;
@@ -293,10 +341,10 @@ namespace EWSD.Course
 
                     cmd.Parameters.Clear();
 
-                    cmd.CommandText = "select email from staff where staff_id = (select course_moderator from course where course_code = @courseCode)";
+                    cmd.CommandText = "SELECT email FROM staff WHERE staff_id = (SELECT course_moderator FROM course WHERE course_code = @courseCode)";
                     cmd.Prepare();
 
-                    cmd.Parameters.AddWithValue("@courseCode", comboCourses.SelectedValue);
+                    cmd.Parameters.AddWithValue("@courseCode", comboCourse.SelectedValue);
 
                     string email = "";
 
@@ -314,7 +362,7 @@ namespace EWSD.Course
                         {
                             mail.From = new MailAddress("comp1640.noreply@gmail.com");
                             mail.To.Add(email);
-                            mail.Subject = "Course Monitoring Report for Course " + comboCourses.SelectedValue.ToUpper();
+                            mail.Subject = "Course Monitoring Report for Course " + comboCourse.SelectedValue.ToUpper();
                             mail.Body = "The Course Monitoring Report (CMR) for Academic Session " + fieldAcademicYear.Text + " is now ready for approval.<br/><br/>Visit the link below to review the CMR right away, or you may login manually via the website.<br/><br/>Link:<br/><a href='http://comp1640.ddns.net/Course/ViewCMR.aspx?reportId=" + report.reportId + "'>View Report</a><br/><br/><br/>Disclaimer: This is an auto-generated email, hence no signature is required. It will also not reply to any queries.";
                             mail.IsBodyHtml = true;
 
@@ -336,66 +384,6 @@ namespace EWSD.Course
                     Response.AddHeader("REFRESH", "3;");
                 }
             }
-        }
-
-        protected void comboCw1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            int selectedIndex = ((DropDownList)sender).SelectedIndex;
-            comboCw1.SelectedIndex = selectedIndex;
-            comboGddCw1.SelectedIndex = selectedIndex;
-            fieldCw1Mean.Text = "";
-            fieldCw1Median.Text = "";
-            fieldCw1StdDev.Text = "";
-            fieldGddCw1Group1.Text = "";
-            fieldGddCw1Group2.Text = "";
-            fieldGddCw1Group3.Text = "";
-            fieldGddCw1Group4.Text = "";
-            fieldGddCw1Group5.Text = "";
-            fieldGddCw1Group6.Text = "";
-            fieldGddCw1Group7.Text = "";
-            fieldGddCw1Group8.Text = "";
-            fieldGddCw1Group9.Text = "";
-            fieldGddCw1Group10.Text = "";
-        }
-
-        protected void comboCw2_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            int selectedIndex = ((DropDownList)sender).SelectedIndex;
-            comboCw2.SelectedIndex = selectedIndex;
-            comboGddCw2.SelectedIndex = selectedIndex;
-            fieldCw2Mean.Text = "";
-            fieldCw2Median.Text = "";
-            fieldCw2StdDev.Text = "";
-            fieldGddCw2Group1.Text = "";
-            fieldGddCw2Group2.Text = "";
-            fieldGddCw2Group3.Text = "";
-            fieldGddCw2Group4.Text = "";
-            fieldGddCw2Group5.Text = "";
-            fieldGddCw2Group6.Text = "";
-            fieldGddCw2Group7.Text = "";
-            fieldGddCw2Group8.Text = "";
-            fieldGddCw2Group9.Text = "";
-            fieldGddCw2Group10.Text = "";
-        }
-
-        protected void comboCw3_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            int selectedIndex = ((DropDownList)sender).SelectedIndex;
-            comboCw3.SelectedIndex = selectedIndex;
-            comboGddCw3.SelectedIndex = selectedIndex;
-            fieldCw3Mean.Text = "";
-            fieldCw3Median.Text = "";
-            fieldCw3StdDev.Text = "";
-            fieldGddCw3Group1.Text = "";
-            fieldGddCw3Group2.Text = "";
-            fieldGddCw3Group3.Text = "";
-            fieldGddCw3Group4.Text = "";
-            fieldGddCw3Group5.Text = "";
-            fieldGddCw3Group6.Text = "";
-            fieldGddCw3Group7.Text = "";
-            fieldGddCw3Group8.Text = "";
-            fieldGddCw3Group9.Text = "";
-            fieldGddCw3Group10.Text = "";
         }
     }
 }
