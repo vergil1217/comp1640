@@ -22,13 +22,13 @@ namespace EWSD.Guest
                 if (type.Equals("xclcm"))
                 {
                     panelXCLCM.Visible = true;
-                    literalXCLCM.Text = "Courses Without Pro-Vice Chancellor or Director of Learning and Quality";
+                    literalXCLCM.Text = "Courses Without Course Leader or Course Moderator";
                     using (SqlConnection conn = new SqlConnection(WebConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
                     {
                         using (SqlCommand cmd = new SqlCommand())
                         {
                             cmd.Connection = conn;
-                            cmd.CommandText = "SELECT faculty_name FROM faculty WHERE pro_vice_chancellor IS NULL OR director_learning_quality IS NULL";
+                            cmd.CommandText = "SELECT course_title FROM course WHERE course_leader IS NULL OR course_moderator IS NULL";
                             cmd.Prepare();
 
                             conn.Open();
@@ -81,7 +81,7 @@ namespace EWSD.Guest
 
                                 cmd.CommandText = "SELECT course_title FROM course WHERE course_code IN (" +
                                     "SELECT parent_course FROM coursework WHERE coursework_code IN (" +
-                                        "SELECT coursework_code FROM statistic WHERE stat_id IN (" +
+                                        "SEhECT coursework_code FROM statistic WHERE stat_id IN (" +
                                             "SELECT stat_id FROM reports WHERE report_id = @reportId)))";
                                 cmd.Prepare();
 
