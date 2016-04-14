@@ -236,28 +236,28 @@ namespace EWSD.Course
 
             using (SqlConnection conn = new SqlConnection(WebConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
             {
-                ArrayList arrStats = new ArrayList();
-
-                if (rowGddCw1.Visible && rowStatCw1.Visible)
-                {
-                    Statistics stat1 = new Statistics(0, int.Parse(fieldAcademicYear.Text), comboCoursework.SelectedValue, 1, double.Parse(fieldCw1Mean.Text), double.Parse(fieldCw1Median.Text), double.Parse(fieldCw1StdDev.Text), double.Parse(fieldGddCw1Group1.Text), double.Parse(fieldGddCw1Group2.Text), double.Parse(fieldGddCw1Group3.Text), double.Parse(fieldGddCw1Group4.Text), double.Parse(fieldGddCw1Group5.Text), double.Parse(fieldGddCw1Group6.Text), double.Parse(fieldGddCw1Group7.Text), double.Parse(fieldGddCw1Group8.Text), double.Parse(fieldGddCw1Group9.Text), double.Parse(fieldGddCw1Group10.Text));
-                    arrStats.Add(stat1);
-                }
-
-                if(rowGddCw2.Visible && rowStatCw2.Visible)
-                {
-                    Statistics stat2 = new Statistics(0, int.Parse(fieldAcademicYear.Text), comboCoursework.SelectedValue, 2, double.Parse(fieldCw2Mean.Text), double.Parse(fieldCw2Median.Text), double.Parse(fieldCw2StdDev.Text), double.Parse(fieldGddCw2Group1.Text), double.Parse(fieldGddCw2Group2.Text), double.Parse(fieldGddCw2Group3.Text), double.Parse(fieldGddCw2Group4.Text), double.Parse(fieldGddCw2Group5.Text), double.Parse(fieldGddCw2Group6.Text), double.Parse(fieldGddCw2Group7.Text), double.Parse(fieldGddCw2Group8.Text), double.Parse(fieldGddCw2Group9.Text), double.Parse(fieldGddCw2Group10.Text));
-                    arrStats.Add(stat2);
-                }
-
-                if(rowGddExam.Visible && rowStatExam.Visible)
-                {
-                    Statistics stat3 = new Statistics(0, int.Parse(fieldAcademicYear.Text), comboCoursework.SelectedValue, 3, double.Parse(fieldExamMean.Text), double.Parse(fieldExamMedian.Text), double.Parse(fieldExamStdDev.Text), double.Parse(fieldGddExamGroup1.Text), double.Parse(fieldGddExamGroup2.Text), double.Parse(fieldGddExamGroup3.Text), double.Parse(fieldGddExamGroup4.Text), double.Parse(fieldGddExamGroup5.Text), double.Parse(fieldGddExamGroup6.Text), double.Parse(fieldGddExamGroup7.Text), double.Parse(fieldGddExamGroup8.Text), double.Parse(fieldGddExamGroup9.Text), double.Parse(fieldGddExamGroup10.Text));
-                    arrStats.Add(stat3);
-                }
-
                 using (SqlCommand cmd = new SqlCommand())
                 {
+                    ArrayList arrStats = new ArrayList();
+
+                    if (rowGddCw1.Visible && rowStatCw1.Visible)
+                    {
+                        Statistics stat1 = new Statistics(0, int.Parse(fieldAcademicYear.Text), comboCoursework.SelectedValue, 1, double.Parse(fieldCw1Mean.Text), double.Parse(fieldCw1Median.Text), double.Parse(fieldCw1StdDev.Text), double.Parse(fieldGddCw1Group1.Text), double.Parse(fieldGddCw1Group2.Text), double.Parse(fieldGddCw1Group3.Text), double.Parse(fieldGddCw1Group4.Text), double.Parse(fieldGddCw1Group5.Text), double.Parse(fieldGddCw1Group6.Text), double.Parse(fieldGddCw1Group7.Text), double.Parse(fieldGddCw1Group8.Text), double.Parse(fieldGddCw1Group9.Text), double.Parse(fieldGddCw1Group10.Text));
+                        arrStats.Add(stat1);
+                    }
+
+                    if (rowGddCw2.Visible && rowStatCw2.Visible)
+                    {
+                        Statistics stat2 = new Statistics(0, int.Parse(fieldAcademicYear.Text), comboCoursework.SelectedValue, 2, double.Parse(fieldCw2Mean.Text), double.Parse(fieldCw2Median.Text), double.Parse(fieldCw2StdDev.Text), double.Parse(fieldGddCw2Group1.Text), double.Parse(fieldGddCw2Group2.Text), double.Parse(fieldGddCw2Group3.Text), double.Parse(fieldGddCw2Group4.Text), double.Parse(fieldGddCw2Group5.Text), double.Parse(fieldGddCw2Group6.Text), double.Parse(fieldGddCw2Group7.Text), double.Parse(fieldGddCw2Group8.Text), double.Parse(fieldGddCw2Group9.Text), double.Parse(fieldGddCw2Group10.Text));
+                        arrStats.Add(stat2);
+                    }
+
+                    if (rowGddExam.Visible && rowStatExam.Visible)
+                    {
+                        Statistics stat3 = new Statistics(0, int.Parse(fieldAcademicYear.Text), comboCoursework.SelectedValue, 3, double.Parse(fieldExamMean.Text), double.Parse(fieldExamMedian.Text), double.Parse(fieldExamStdDev.Text), double.Parse(fieldGddExamGroup1.Text), double.Parse(fieldGddExamGroup2.Text), double.Parse(fieldGddExamGroup3.Text), double.Parse(fieldGddExamGroup4.Text), double.Parse(fieldGddExamGroup5.Text), double.Parse(fieldGddExamGroup6.Text), double.Parse(fieldGddExamGroup7.Text), double.Parse(fieldGddExamGroup8.Text), double.Parse(fieldGddExamGroup9.Text), double.Parse(fieldGddExamGroup10.Text));
+                        arrStats.Add(stat3);
+                    }
+
                     cmd.Connection = conn;
                     cmd.CommandText = "INSERT INTO statistic (academic_year, coursework_code, assessment_type, mean, median, standard_deviation, grade_dist_group_1, grade_dist_group_2, grade_dist_group_3, grade_dist_group_4, grade_dist_group_5, grade_dist_group_6, grade_dist_group_7, grade_dist_group_8, grade_dist_group_9, grade_dist_group_10) VALUES " +
                         "(@academicYear, @cwCode, @assessmentType, @mean, @median, @stdDev, @group1, @group2, @group3, @group4, @group5, @group6, @group7, @group8, @group9, @group10)";
@@ -290,7 +290,7 @@ namespace EWSD.Course
 
                     cmd.Parameters.Clear();
 
-                    cmd.CommandText = "SELECT stat_id FROM statistic WHERE stat_id IN (SELECT TOP 3 stat_id FROM statistic ORDER BY stat_id DESC) ORDER BY stat_id";
+                    cmd.CommandText = "SELECT stat_id FROM statistic WHERE stat_id IN (SELECT TOP " + arrStats.Count.ToString() + " stat_id FROM statistic ORDER BY stat_id DESC) ORDER BY stat_id";
                     cmd.Prepare();
                     
                     using(SqlDataReader reader = cmd.ExecuteReader())
